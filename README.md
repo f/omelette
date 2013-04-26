@@ -6,7 +6,7 @@ You just have to decide your program name and CLI fragments.
 
 ## Quickstart
 
-Implementing omelette is very easy.
+Implementing omelette is very easy:
 
 Install it first from NPM:
 
@@ -17,6 +17,12 @@ npm install omelette
 Let's think we have a executable file with the name **githubber**, *in a global path*.
 
 ### Code
+
+It's based on a simple CLI template.
+
+```coffeescript
+omelette "yourapp <module> <command> <suboption>"
+```
 
 ```coffeescript
 #!/usr/bin/env coffee
@@ -46,6 +52,8 @@ complete.on "repo", (user)->
 # And serve your autocompletion
 complete.init()
 ```
+
+`complete.reply` is the completion replier. You should pass the options into that method.
 
 ### Install
 

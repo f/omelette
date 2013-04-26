@@ -1,0 +1,25 @@
+#!/usr/bin/env node
+(function() {
+  var complete, fs, omelette;
+
+  fs = require("fs");
+
+  omelette = require("./omelette");
+
+  complete = omelette("githubber <action> <user> <repo>");
+
+  complete.on("action", function() {
+    return complete.reply(["clone", "update", "push"]);
+  });
+
+  complete.on("user", function(action) {
+    return complete.reply(fs.readdirSync("/Users/"));
+  });
+
+  complete.on("repo", function(user) {
+    return complete.reply(["http://github.com/" + user + "/helloworld", "http://github.com/" + user + "/blabla"]);
+  });
+
+  complete.init();
+
+}).call(this);

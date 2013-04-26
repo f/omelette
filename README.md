@@ -64,13 +64,13 @@ Installing, and making your users install the autocompletion feature is very sim
 In **zsh**, you can write these:
 
 ```bash
-echo '. <(githubber --completion)' >> .zshrc
+echo '. <(./githubber --completion)' >> .zshrc
 ```
 
 In **bash**, you should write:
 
 ```bash
-githubber --completion >> ~/githubber.completion.sh
+./githubber --completion >> ~/githubber.completion.sh
 echo 'source ~/githubber.completion.sh' >> .bash_profile
 ```
 

@@ -4,7 +4,7 @@
 
   fs = require("fs");
 
-  omelette = require("./omelette");
+  omelette = require("../omelette");
 
   complete = omelette("githubber <action> <user> <repo>");
 

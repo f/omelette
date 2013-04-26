@@ -4,6 +4,12 @@ Omelette is a simple, template based autocompletion tool for Node projects.
 
 You just have to decide your program name and CLI fragments.
 
+```coffeescript
+omelette "githubber <module> <command> <suboption>"
+```
+
+And you are almost done!
+
 ![Example](https://raw.github.com/f/omelette/master/resources/omelette.gif)
 
 ## Quickstart
@@ -22,12 +28,38 @@ It's based on a simple CLI template.
 
 Let's think we have a executable file with the name **githubber**, *in a global path*.
 
-Template is something like that:
+And in our program, code will be:
+
 ```coffeescript
-omelette "yourapp <module> <command> <suboption>"
+#!/usr/bin/env coffee
+
+omelette = require "omelette"
+
+# Write your CLI template.
+complete = omelette "githubber <action> <user> <repo>"
+
+# Bind events for every template part.
+complete.on "action", ->
+  complete.reply ["clone", "update", "push"]
+
+complete.on "user", (action)->
+  complete.reply fs.readdirSync "/Users/"
+
+complete.on "repo", (user)->
+  complete.reply [
+    "http://github.com/#{user}/helloworld"
+    "http://github.com/#{user}/blabla"
+  ]
+
+# Initialize the omelette.
+complete.init()
+
+# Rest is yours
+console.log "Your program's default workflow."
+console.log process.argv
 ```
 
-And in our program, code will be:
+If you like oldschool:
 
 ```javascript
 var fs = require("fs"), 
@@ -57,37 +89,6 @@ complete.init();
 // Rest is yours.
 console.log("Your program's default workflow.");
 console.log(process.argv);
-```
-
-The coffee way is more readable:
-
-```coffeescript
-#!/usr/bin/env coffee
-
-omelette = require "omelette"
-
-# Write your CLI template.
-complete = omelette "githubber <action> <user> <repo>"
-
-# Bind events for every template part.
-complete.on "action", ->
-  complete.reply ["clone", "update", "push"]
-
-complete.on "user", (action)->
-  complete.reply fs.readdirSync "/Users/"
-
-complete.on "repo", (user)->
-  complete.reply [
-    "http://github.com/#{user}/helloworld"
-    "http://github.com/#{user}/blabla"
-  ]
-
-# Initialize the omelette.
-complete.init()
-
-# Rest is yours
-console.log "Your program's default workflow."
-console.log process.argv
 ```
 
 `complete.reply` is the completion replier. You should pass the options into that method.

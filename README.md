@@ -25,7 +25,40 @@ Template is something like that:
 omelette "yourapp <module> <command> <suboption>"
 ```
 
-And in our program, template will be:
+And in our program, code will be:
+
+```javascript
+var fs = require("fs"), 
+    omelette = require("../omelette");
+
+// Write your CLI template.
+var complete = omelette("githubber <action> <user> <repo>");
+
+complete.on("action", function() {
+  return complete.reply(["clone", "update", "push"]);
+});
+
+complete.on("user", function(action) {
+  return complete.reply(fs.readdirSync("/Users/"));
+});
+
+complete.on("repo", function(user) {
+  return complete.reply([
+    "http://github.com/" + user + "/helloworld", 
+    "http://github.com/" + user + "/blabla"
+  ]);
+});
+
+// Initialize the omelette.
+complete.init();
+
+// Rest is yours.
+console.log("Your program's default workflow.");
+console.log(process.argv);
+```
+
+The coffee way is more readable:
+
 ```coffeescript
 #!/usr/bin/env coffee
 
@@ -36,11 +69,7 @@ complete = omelette "githubber <action> <user> <repo>"
 
 # Bind events for every template part.
 complete.on "action", ->
-  complete.reply [
-    "clone"
-    "update"
-    "push"
-  ]
+  complete.reply ["clone", "update", "push"]
 
 complete.on "user", (action)->
   complete.reply fs.readdirSync "/Users/"
@@ -51,8 +80,12 @@ complete.on "repo", (user)->
     "http://github.com/#{user}/blabla"
   ]
 
-# And serve your autocompletion
+# Initialize the omelette.
 complete.init()
+
+# Rest is yours
+console.log "Your program's default workflow."
+console.log process.argv
 ```
 
 `complete.reply` is the completion replier. You should pass the options into that method.

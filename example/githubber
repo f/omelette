@@ -4,20 +4,20 @@
 
   fs = require("fs");
 
-  omelette = require("../omelette");
+  omelette = require("../src/omelette");
 
   complete = omelette("githubber <action> <user> <repo>");
 
   complete.on("action", function() {
-    return complete.reply(["clone", "update", "push"]);
+    return this.reply(["star","clone", "update", "push"]);
   });
 
   complete.on("user", function(action) {
-    return complete.reply(fs.readdirSync("/Users/"));
+    return this.reply(fs.readdirSync("/Users/"));
   });
 
   complete.on("repo", function(user) {
-    return complete.reply(["http://github.com/" + user + "/helloworld", "http://github.com/" + user + "/blabla"]);
+    return this.reply(["http://github.com/" + user + "/helloworld", "http://github.com/" + user + "/blabla"]);
   });
 
   complete.init();

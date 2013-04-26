@@ -52,6 +52,10 @@ class Omelette extends EventEmitter
   init: ->
     do @generate if @compgen > -1
 
+  on: (event, listener)->
+    listener = listener.bind this
+    @addListener.apply @, arguments
+
 module.exports = (template)->
   [program, fragments...] = template.split /\s+/
   fragments = fragments.map (fragment)-> fragment.replace /^\<+|\>+$/g, ''

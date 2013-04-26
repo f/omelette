@@ -11,7 +11,7 @@
   "engines":      {
     "node":       ">=0.8.0"
   },
-  "main" :        "./omelette.js",
+  "main" :        "./src/omelette.js",
   "homepage":     "https://github.com/f/omelette",
   "bugs":         "https://github.com/f/omelette/issues",
   "repository":   {

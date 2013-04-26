@@ -39,14 +39,12 @@ omelette = require "omelette"
 complete = omelette "githubber <action> <user> <repo>"
 
 # Bind events for every template part.
-complete.on "action", ->
-  complete.reply ["clone", "update", "push"]
+complete.on "action", -> @reply ["clone", "update", "push"]
 
-complete.on "user", (action)->
-  complete.reply fs.readdirSync "/Users/"
+complete.on "user", (action)-> @reply fs.readdirSync "/Users/"
 
 complete.on "repo", (user)->
-  complete.reply [
+  @reply [
     "http://github.com/#{user}/helloworld"
     "http://github.com/#{user}/blabla"
   ]
@@ -69,15 +67,15 @@ var fs = require("fs"),
 var complete = omelette("githubber <action> <user> <repo>");
 
 complete.on("action", function() {
-  return complete.reply(["clone", "update", "push"]);
+  return this.reply(["clone", "update", "push"]);
 });
 
 complete.on("user", function(action) {
-  return complete.reply(fs.readdirSync("/Users/"));
+  return this.reply(fs.readdirSync("/Users/"));
 });
 
 complete.on("repo", function(user) {
-  return complete.reply([
+  return this.reply([
     "http://github.com/" + user + "/helloworld", 
     "http://github.com/" + user + "/blabla"
   ]);
@@ -113,6 +111,26 @@ echo 'source ~/githubber.completion.sh' >> .bash_profile
 That's all!
 
 Now you have an autocompletion system for your CLI tool.
+
+## Additions
+
+You also can be able to listen all fragments by "complete" event.
+
+### Global Event
+
+```coffeescript
+complete.on "complete", (fragment, word, line)-> @reply ["hello", "world"]
+```
+
+### Numbered Arguments
+
+You also can listen events by its order.
+
+```coffeescript
+complete.on "$1", (word, line)-> @reply ["hello", "world"]
+```
+
+```coffeescript
 
 ## Test
 

@@ -14,16 +14,18 @@ Install it first from NPM:
 npm install omelette
 ```
 
-Let's think we have a executable file with the name **githubber**, *in a global path*.
-
 ### Code
 
 It's based on a simple CLI template.
 
+Let's think we have a executable file with the name **githubber**, *in a global path*.
+
+Template is something like that:
 ```coffeescript
 omelette "yourapp <module> <command> <suboption>"
 ```
 
+And in our program, template will be:
 ```coffeescript
 #!/usr/bin/env coffee
 
@@ -81,19 +83,19 @@ Now you have an autocompletion system for your CLI tool.
 Now, you can try it in your shell.
 
 ```bash
-$ githubber<tab>
+$ ./githubber<tab>
 clone update push
 ```
 
 ```bash
-$ githubber cl<tab>
-$ githubber clone<tab>
+$ ./githubber cl<tab>
+$ ./githubber clone<tab>
 Guest fka
 ```
 
 ```bash
-$ githubber clone fka<tab>
-$ githubber clone fka http://github.com/fka/<tab>
+$ ./githubber clone fka<tab>
+$ ./githubber clone fka http://github.com/fka/<tab>
 http://github.com/fka/helloworld
 http://github.com/fka/blabla
 ```

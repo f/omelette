@@ -62,6 +62,28 @@ That's all!
 
 Now you have an autocompletion system for your CLI tool.
 
+## Test
+
+Now, you can try it in your shell.
+
+```bash
+$ githubber<tab>
+clone update push
+```
+
+```bash
+$ githubber cl<tab>
+$ githubber clone<tab>
+Guest fka
+```
+
+```bash
+$ githubber clone fka<tab>
+$ githubber clone fka http://github.com/fka/<tab>
+http://github.com/fka/helloworld
+http://github.com/fka/blabla
+```
+
 ## Contribute
 
 I need your contributions to make that work better!

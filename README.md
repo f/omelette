@@ -6,7 +6,13 @@ You just have to decide your program name and CLI fragments.
 
 ## Quickstart
 
-Implementing omelette is very easy. 
+Implementing omelette is very easy.
+
+Install it first from NPM:
+
+```bash
+npm install omelette
+```
 
 Let's think we have a executable file with the name **githubber**, *in a global path*.
 

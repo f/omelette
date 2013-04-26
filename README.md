@@ -29,7 +29,7 @@ And in our program, code will be:
 
 ```javascript
 var fs = require("fs"), 
-    omelette = require("../omelette");
+    omelette = require("omelette");
 
 // Write your CLI template.
 var complete = omelette("githubber <action> <user> <repo>");

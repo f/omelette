@@ -4,6 +4,8 @@ Omelette is a simple, template based autocompletion tool for Node projects.
 
 You just have to decide your program name and CLI fragments.
 
+![Example](https://raw.github.com/f/omelette/master/resources/omelette.gif)
+
 ## Quickstart
 
 Implementing omelette is very easy:

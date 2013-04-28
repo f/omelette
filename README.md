@@ -1,5 +1,9 @@
 # Omelette.js v0.0.1
 
+```bash
+npm install omelette
+```
+
 Omelette is a simple, template based autocompletion tool for Node projects.
 
 You just have to decide your program name and CLI fragments.
@@ -14,12 +18,18 @@ And you are almost done!
 
 ## Quickstart
 
-Implementing omelette is very easy:
+Implementing omelette is very easy.
 
-Install it first from NPM:
+```coffeescript
+#!/usr/bin/env coffee
 
-```bash
-npm install omelette
+omelette = require "omelette"
+comp = omelette "programname <firstargument>"
+
+comp.on "firstargument", ->
+  @reply ["hello", "cruel", "world"]
+
+comp.init()
 ```
 
 ### Code

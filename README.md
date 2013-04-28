@@ -114,9 +114,19 @@ Now you have an autocompletion system for your CLI tool.
 
 ## Additions
 
-You also can be able to listen all fragments by "complete" event.
+There are some useful additions for omelette.
+
+### Parameters
+
+Callbacks have three parameters:
+
+  - The number of fragment *just for global event*
+  - The parent word.
+  - The whole command line buffer allow you to parse and reply as you wish.
 
 ### Global Event
+
+You also can be able to listen all fragments by "complete" event.
 
 ```coffeescript
 complete.on "complete", (fragment, word, line)-> @reply ["hello", "world"]

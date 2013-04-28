@@ -67,11 +67,6 @@
       }
     };
 
-    Omelette.prototype.on = function(event, listener) {
-      listener = listener.bind(this);
-      return this.addListener.apply(this, arguments);
-    };
-
     return Omelette;
 
   })(EventEmitter);

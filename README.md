@@ -150,8 +150,6 @@ You also can listen events by its order.
 complete.on "$1", (word, line)-> @reply ["hello", "world"]
 ```
 
-```coffeescript
-
 ## Test
 
 Now, you can try it in your shell.

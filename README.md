@@ -1,5 +1,7 @@
 # Omelette.js v0.0.1
 
+[![Build Status](https://travis-ci.org/f/omelette.png?branch=master)](https://travis-ci.org/f/omelette)
+
 ```bash
 npm install omelette
 ```

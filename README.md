@@ -1,5 +1,7 @@
 # Omelette.js v0.0.1
 
+[![Clone to Koding](http://fatihak.in/app/klone/button.png)](http://fatihak.in/app/klone/?/f/qvimrc)
+
 [![Build Status](https://travis-ci.org/f/omelette.png?branch=master)](https://travis-ci.org/f/omelette)
 
 ```bash

@@ -1,7 +1,7 @@
 # Omelette.js v0.0.1
 
 
-[![Clone in Koding](http://kbutton.org/clone.png)](http://kbutton.org/f/omelette)
+[![Clone in Koding](http://kbutton.org/clone.png?v1)](http://kbutton.org/f/omelette)
 
 [![Build Status](https://travis-ci.org/f/omelette.png?branch=master)](https://travis-ci.org/f/omelette)
 

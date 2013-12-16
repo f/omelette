@@ -1,8 +1,5 @@
 # Omelette.js v0.0.1
 
-
-[![Clone in Koding](http://kbutton.org/clone.png?v1)](http://kbutton.org/f/omelette)
-
 [![Build Status](https://travis-ci.org/f/omelette.png?branch=master)](https://travis-ci.org/f/omelette)
 
 ```bash
@@ -176,6 +173,10 @@ $ ./githubber clone fka http://github.com/fka/<tab>
 http://github.com/fka/helloworld
 http://github.com/fka/blabla
 ```
+
+## Who uses?
+
+**Windows Azure** uses Omelette to support autocompletion in [azure-cli](https://github.com/WindowsAzure/azure-sdk-tools-xplat).
 
 ## Contribute
 

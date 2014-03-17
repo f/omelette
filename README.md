@@ -186,4 +186,4 @@ I need your contributions to make that work better!
 
 This project licensed under MIT.
 
-[!Codeship Status](https://www.codeship.io/projects/1ccaea50-8ffe-0131-9189-166ee657e7b4/status)
+[![Build Status](https://www.codeship.io/projects/1ccaea50-8ffe-0131-9189-166ee657e7b4/status)](http://codeship.io/f/omelette)

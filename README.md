@@ -18,6 +18,12 @@ And you are almost done!
 
 ![Example](https://raw.github.com/f/omelette/master/resources/omelette.gif)
 
+A more detailed template spec:
+
+```coffeescript
+omelette "<programname>[|<shortname>|<short>|<...>] <module> [<command> <suboption> <...>]"
+```
+
 ## Quickstart
 
 Implementing omelette is very easy.
@@ -26,13 +32,15 @@ Implementing omelette is very easy.
 #!/usr/bin/env coffee
 
 omelette = require "omelette"
-comp = omelette "programname <firstargument>"
+comp = omelette "programname|prgmnm|prgnm <firstargument>"
 
 comp.on "firstargument", ->
   @reply ["hello", "cruel", "world"]
 
 comp.init()
 ```
+
+**You can add multiple names to programs**
 
 ### Code
 
@@ -48,7 +56,7 @@ And in our program, code will be:
 omelette = require "omelette"
 
 # Write your CLI template.
-complete = omelette "githubber <action> <user> <repo>"
+complete = omelette "githubber|gh <action> <user> <repo>"
 
 # Bind events for every template part.
 complete.on "action", -> @reply ["clone", "update", "push"]
@@ -80,7 +88,7 @@ var fs = require("fs"),
     omelette = require("omelette");
 
 // Write your CLI template.
-var complete = omelette("githubber <action> <user> <repo>");
+var complete = omelette("githubber|gh <action> <user> <repo>");
 
 complete.on("action", function() {
   this.reply(["clone", "update", "push"]);
@@ -181,6 +189,16 @@ You also can listen events by its order.
 complete.on "$1", (word, line)-> @reply ["hello", "world"]
 ```
 
+### Short Names
+
+You can set short name of an executable:
+
+In this example, `githubber` is long and `gh` is shorter examples.
+
+```coffeescript
+omelette "githubber|gh <module> <command> <suboption>"
+```
+
 ## Test
 
 Now, you can try it in your shell.
@@ -189,9 +207,36 @@ Now, you can try it in your shell.
 git clone https://github.com/f/omelette
 cd omelette/examples
 alias githubber="./githubber" # The app should be global, completion will search it on global level.
-./githubber --setup # --setup is not provided by omelette, you should proxy it.
-./githubber<tab>
+./githubber --setup --debug # --setup is not provided by omelette, you should proxy it.
+# (reload bash, or source ~/.bash_profile)
+omelette-debug-githubber # See Debugging section
+githubber<tab>
+ghb<tab> # short alias
+gh<tab> # short alias
 ```
+
+### Debugging
+
+`--debug` option generates a function called `omlette-debug-<programname>`.
+(`omlette-debug-githubber` in this example).
+
+When you run `omlette-debug-<programname>`, it will create aliases for your
+application. (`githubber` and `gh` in this example).
+
+Long name,
+
+```bash
+$ githubber<tab>
+clone update push
+```
+
+Or short name:
+
+```bash
+$ gh<tab>
+clone update push
+```
+
 Then you can start easily.
 
 ```bash

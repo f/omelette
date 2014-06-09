@@ -6,7 +6,7 @@
 
   omelette = require("../src/omelette");
 
-  complete = omelette("githubber <action> <user> <repo>");
+  complete = omelette("githubber|ghb|gh|g <action> <user> <repo>");
 
   complete.on("action", function() {
     this.reply(["star","clone", "update", "push"]);

@@ -3,7 +3,7 @@
   "description":  "Omelette.js Simple Autocompletion Helper for Node",
   "keywords":     ["autocompletion", "complete", "bash completion", "zsh completion"],
   "author":       "Fatih Kadir Akın <fka@fatihak.in>",
-  "version":      "0.2.1",
+  "version":      "0.3.0",
   "licenses":     [{
     "type":       "MIT"
   }],

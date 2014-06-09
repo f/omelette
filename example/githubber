@@ -9,18 +9,23 @@
   complete = omelette("githubber <action> <user> <repo>");
 
   complete.on("action", function() {
-    return this.reply(["star","clone", "update", "push"]);
+    this.reply(["star","clone", "update", "push"]);
   });
 
   complete.on("user", function(action) {
-    return this.reply(fs.readdirSync("/Users/"));
+    this.reply(fs.readdirSync("/Users/"));
   });
 
   complete.on("repo", function(user) {
-    return this.reply(["http://github.com/" + user + "/helloworld", "http://github.com/" + user + "/blabla"]);
+    this.reply(["http://github.com/" + user + "/helloworld", "http://github.com/" + user + "/blabla"]);
   });
 
   complete.init();
+
+  // If you want to setup, you can use `omeletteInstance.setupShellInitFile()` function.
+  if (~process.argv.indexOf('--setup')) {
+    complete.setupShellInitFile();
+  }
 
   console.log("Your program's default workflow.");
   console.log(process.argv);

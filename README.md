@@ -64,6 +64,10 @@ complete.on "repo", (user)->
 # Initialize the omelette.
 complete.init()
 
+# If you want to have a setup feature, you can use `omeletteInstance.setupShellInitFile()` function.
+if ~process.argv.indexOf '--setup'
+  complete.setupShellInitFile()
+
 # Rest is yours
 console.log "Your program's default workflow."
 console.log process.argv
@@ -72,29 +76,34 @@ console.log process.argv
 If you like oldschool:
 
 ```javascript
-var fs = require("fs"), 
+var fs = require("fs"),
     omelette = require("omelette");
 
 // Write your CLI template.
 var complete = omelette("githubber <action> <user> <repo>");
 
 complete.on("action", function() {
-  return this.reply(["clone", "update", "push"]);
+  this.reply(["clone", "update", "push"]);
 });
 
 complete.on("user", function(action) {
-  return this.reply(fs.readdirSync("/Users/"));
+  this.reply(fs.readdirSync("/Users/"));
 });
 
 complete.on("repo", function(user) {
-  return this.reply([
-    "http://github.com/" + user + "/helloworld", 
+  this.reply([
+    "http://github.com/" + user + "/helloworld",
     "http://github.com/" + user + "/blabla"
   ]);
 });
 
 // Initialize the omelette.
 complete.init();
+
+// If you want to have a setup feature, you can use `omeletteInstance.setupShellInitFile()` function.
+if (~process.argv.indexOf '--setup') {
+  complete.setupShellInitFile();
+}
 
 // Rest is yours.
 console.log("Your program's default workflow.");
@@ -105,7 +114,27 @@ console.log(process.argv);
 
 ### Install
 
+#### Automated Install
+
 Installing, and making your users install the autocompletion feature is very simple.
+
+You can use simply use `setupShellInitFile` function.
+
+```javascript
+// If you want to write file,
+complete.setupShellInitFile('~/.my_bash_profile');
+```
+
+If you use Bash, it will create a file at `~/.<program-name>/completion.sh` and
+append a loader code to `~/.bash_profile` file.
+
+If you use Zsh, it just append a loader code to `~/.zshrc` file.
+
+*TL;DR: It does the Manual Install part, basically.*
+
+#### Manual Install
+
+*(You should add these instructions to your project's README)*
 
 In **zsh**, you can write these:
 
@@ -155,6 +184,15 @@ complete.on "$1", (word, line)-> @reply ["hello", "world"]
 ## Test
 
 Now, you can try it in your shell.
+
+```bash
+git clone https://github.com/f/omelette
+cd omelette/examples
+alias githubber="./githubber" # The app should be global, completion will search it on global level.
+./githubber --setup # --setup is not provided by omelette, you should proxy it.
+./githubber<tab>
+```
+Then you can start easily.
 
 ```bash
 $ ./githubber<tab>

@@ -29,7 +29,9 @@
     <div class="container">
       <section id="main_content">
         <h1>
-<a name="omelettejs-v001" class="anchor" href="#omelettejs-v001"><span class="octicon octicon-link"></span></a>Omelette.js v0.0.1</h1>
+<a name="omelettejs-v031" class="anchor" href="#omelettejs-v031"><span class="octicon octicon-link"></span></a>Omelette.js v0.3.1</h1>
+
+<p><a href="https://travis-ci.org/f/omelette"><img src="https://travis-ci.org/f/omelette.png?branch=master" alt="Build Status"></a></p>
 
 <div class="highlight highlight-bash"><pre>npm install omelette
 </pre></div>
@@ -45,6 +47,11 @@
 
 <p><img src="https://raw.github.com/f/omelette/master/resources/omelette.gif" alt="Example"></p>
 
+<p>A more detailed template spec:</p>
+
+<div class="highlight highlight-coffeescript"><pre><span class="nx">omelette</span> <span class="s">"&lt;programname&gt;[|&lt;shortname&gt;|&lt;short&gt;|&lt;...&gt;] &lt;module&gt; [&lt;command&gt; &lt;suboption&gt; &lt;...&gt;]"</span>
+</pre></div>
+
 <h2>
 <a name="quickstart" class="anchor" href="#quickstart"><span class="octicon octicon-link"></span></a>Quickstart</h2>
 
@@ -53,13 +60,15 @@
 <div class="highlight highlight-coffeescript"><pre><span class="c1">#!/usr/bin/env coffee</span>
 
 <span class="nv">omelette = </span><span class="nx">require</span> <span class="s">"omelette"</span>
-<span class="nv">comp = </span><span class="nx">omelette</span> <span class="s">"programname &lt;firstargument&gt;"</span>
+<span class="nv">comp = </span><span class="nx">omelette</span> <span class="s">"programname|prgmnm|prgnm &lt;firstargument&gt;"</span>
 
 <span class="nx">comp</span><span class="p">.</span><span class="nx">on</span> <span class="s">"firstargument"</span><span class="p">,</span> <span class="nf">-&gt;</span>
   <span class="nx">@reply</span> <span class="p">[</span><span class="s">"hello"</span><span class="p">,</span> <span class="s">"cruel"</span><span class="p">,</span> <span class="s">"world"</span><span class="p">]</span>
 
 <span class="nx">comp</span><span class="p">.</span><span class="nx">init</span><span class="p">()</span>
 </pre></div>
+
+<p><strong>You can add multiple names to programs</strong></p>
 
 <h3>
 <a name="code" class="anchor" href="#code"><span class="octicon octicon-link"></span></a>Code</h3>
@@ -75,7 +84,7 @@
 <span class="nv">omelette = </span><span class="nx">require</span> <span class="s">"omelette"</span>
 
 <span class="c1"># Write your CLI template.</span>
-<span class="nv">complete = </span><span class="nx">omelette</span> <span class="s">"githubber &lt;action&gt; &lt;user&gt; &lt;repo&gt;"</span>
+<span class="nv">complete = </span><span class="nx">omelette</span> <span class="s">"githubber|gh &lt;action&gt; &lt;user&gt; &lt;repo&gt;"</span>
 
 <span class="c1"># Bind events for every template part.</span>
 <span class="nx">complete</span><span class="p">.</span><span class="nx">on</span> <span class="s">"action"</span><span class="p">,</span> <span class="nf">-&gt;</span> <span class="nx">@reply</span> <span class="p">[</span><span class="s">"clone"</span><span class="p">,</span> <span class="s">"update"</span><span class="p">,</span> <span class="s">"push"</span><span class="p">]</span>
@@ -91,6 +100,10 @@
 <span class="c1"># Initialize the omelette.</span>
 <span class="nx">complete</span><span class="p">.</span><span class="nx">init</span><span class="p">()</span>
 
+<span class="c1"># If you want to have a setup feature, you can use `omeletteInstance.setupShellInitFile()` function.</span>
+<span class="k">if</span> <span class="o">~</span><span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">indexOf</span> <span class="s">'--setup'</span>
+  <span class="nx">complete</span><span class="p">.</span><span class="nx">setupShellInitFile</span><span class="p">()</span>
+
 <span class="c1"># Rest is yours</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="s">"Your program's default workflow."</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span> <span class="nx">process</span><span class="p">.</span><span class="nx">argv</span>
@@ -98,29 +111,34 @@
 
 <p>If you like oldschool:</p>
 
-<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"fs"</span><span class="p">),</span> 
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"fs"</span><span class="p">),</span>
     <span class="nx">omelette</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"omelette"</span><span class="p">);</span>
 
 <span class="c1">// Write your CLI template.</span>
-<span class="kd">var</span> <span class="nx">complete</span> <span class="o">=</span> <span class="nx">omelette</span><span class="p">(</span><span class="s2">"githubber &lt;action&gt; &lt;user&gt; &lt;repo&gt;"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">complete</span> <span class="o">=</span> <span class="nx">omelette</span><span class="p">(</span><span class="s2">"githubber|gh &lt;action&gt; &lt;user&gt; &lt;repo&gt;"</span><span class="p">);</span>
 
 <span class="nx">complete</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"action"</span><span class="p">,</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">reply</span><span class="p">([</span><span class="s2">"clone"</span><span class="p">,</span> <span class="s2">"update"</span><span class="p">,</span> <span class="s2">"push"</span><span class="p">]);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">reply</span><span class="p">([</span><span class="s2">"clone"</span><span class="p">,</span> <span class="s2">"update"</span><span class="p">,</span> <span class="s2">"push"</span><span class="p">]);</span>
 <span class="p">});</span>
 
 <span class="nx">complete</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"user"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">action</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">reply</span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">readdirSync</span><span class="p">(</span><span class="s2">"/Users/"</span><span class="p">));</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">reply</span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">readdirSync</span><span class="p">(</span><span class="s2">"/Users/"</span><span class="p">));</span>
 <span class="p">});</span>
 
 <span class="nx">complete</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s2">"repo"</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">reply</span><span class="p">([</span>
-    <span class="s2">"http://github.com/"</span> <span class="o">+</span> <span class="nx">user</span> <span class="o">+</span> <span class="s2">"/helloworld"</span><span class="p">,</span> 
+  <span class="k">this</span><span class="p">.</span><span class="nx">reply</span><span class="p">([</span>
+    <span class="s2">"http://github.com/"</span> <span class="o">+</span> <span class="nx">user</span> <span class="o">+</span> <span class="s2">"/helloworld"</span><span class="p">,</span>
     <span class="s2">"http://github.com/"</span> <span class="o">+</span> <span class="nx">user</span> <span class="o">+</span> <span class="s2">"/blabla"</span>
   <span class="p">]);</span>
 <span class="p">});</span>
 
 <span class="c1">// Initialize the omelette.</span>
 <span class="nx">complete</span><span class="p">.</span><span class="nx">init</span><span class="p">();</span>
+
+<span class="c1">// If you want to have a setup feature, you can use `omeletteInstance.setupShellInitFile()` function.</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">~</span><span class="nx">process</span><span class="p">.</span><span class="nx">argv</span><span class="p">.</span><span class="nx">indexOf</span> <span class="s1">'--setup'</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">complete</span><span class="p">.</span><span class="nx">setupShellInitFile</span><span class="p">();</span>
+<span class="p">}</span>
 
 <span class="c1">// Rest is yours.</span>
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">"Your program's default workflow."</span><span class="p">);</span>
@@ -132,7 +150,28 @@
 <h3>
 <a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h3>
 
+<h4>
+<a name="automated-install" class="anchor" href="#automated-install"><span class="octicon octicon-link"></span></a>Automated Install</h4>
+
 <p>Installing, and making your users install the autocompletion feature is very simple.</p>
+
+<p>You can use simply use <code>setupShellInitFile</code> function.</p>
+
+<div class="highlight highlight-javascript"><pre><span class="c1">// If you want to write file,</span>
+<span class="nx">complete</span><span class="p">.</span><span class="nx">setupShellInitFile</span><span class="p">(</span><span class="s1">'~/.my_bash_profile'</span><span class="p">);</span>
+</pre></div>
+
+<p>If you use Bash, it will create a file at <code>~/.&lt;program-name&gt;/completion.sh</code> and
+append a loader code to <code>~/.bash_profile</code> file.</p>
+
+<p>If you use Zsh, it just append a loader code to <code>~/.zshrc</code> file.</p>
+
+<p><em>TL;DR: It does the Manual Install part, basically.</em></p>
+
+<h4>
+<a name="manual-install" class="anchor" href="#manual-install"><span class="octicon octicon-link"></span></a>Manual Install</h4>
+
+<p><em>(You should add these instructions to your project's README)</em></p>
 
 <p>In <strong>zsh</strong>, you can write these:</p>
 
@@ -180,10 +219,54 @@
 <div class="highlight highlight-coffeescript"><pre><span class="nx">complete</span><span class="p">.</span><span class="nx">on</span> <span class="s">"$1"</span><span class="p">,</span> <span class="nf">(word, line)-&gt;</span> <span class="nx">@reply</span> <span class="p">[</span><span class="s">"hello"</span><span class="p">,</span> <span class="s">"world"</span><span class="p">]</span>
 </pre></div>
 
+<h3>
+<a name="short-names" class="anchor" href="#short-names"><span class="octicon octicon-link"></span></a>Short Names</h3>
+
+<p>You can set short name of an executable:</p>
+
+<p>In this example, <code>githubber</code> is long and <code>gh</code> is shorter examples.</p>
+
+<div class="highlight highlight-coffeescript"><pre><span class="nx">omelette</span> <span class="s">"githubber|gh &lt;module&gt; &lt;command&gt; &lt;suboption&gt;"</span>
+</pre></div>
+
 <h2>
 <a name="test" class="anchor" href="#test"><span class="octicon octicon-link"></span></a>Test</h2>
 
 <p>Now, you can try it in your shell.</p>
+
+<div class="highlight highlight-bash"><pre>git clone https://github.com/f/omelette
+<span class="nb">cd </span>omelette/examples
+<span class="nb">alias </span><span class="nv">githubber</span><span class="o">=</span><span class="s2">"./githubber"</span> <span class="c"># The app should be global, completion will search it on global level.</span>
+./githubber --setup --debug <span class="c"># --setup is not provided by omelette, you should proxy it.</span>
+<span class="c"># (reload bash, or source ~/.bash_profile)</span>
+omelette-debug-githubber <span class="c"># See Debugging section</span>
+githubber&lt;tab&gt;
+ghb&lt;tab&gt; <span class="c"># short alias</span>
+gh&lt;tab&gt; <span class="c"># short alias</span>
+</pre></div>
+
+<h3>
+<a name="debugging" class="anchor" href="#debugging"><span class="octicon octicon-link"></span></a>Debugging</h3>
+
+<p><code>--debug</code> option generates a function called <code>omlette-debug-&lt;programname&gt;</code>.
+(<code>omlette-debug-githubber</code> in this example).</p>
+
+<p>When you run <code>omlette-debug-&lt;programname&gt;</code>, it will create aliases for your
+application. (<code>githubber</code> and <code>gh</code> in this example).</p>
+
+<p>Long name,</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>githubber&lt;tab&gt;
+clone update push
+</pre></div>
+
+<p>Or short name:</p>
+
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>gh&lt;tab&gt;
+clone update push
+</pre></div>
+
+<p>Then you can start easily.</p>
 
 <div class="highlight highlight-bash"><pre><span class="nv">$ </span>./githubber&lt;tab&gt;
 clone update push
@@ -201,6 +284,11 @@ http://github.com/fka/blabla
 </pre></div>
 
 <h2>
+<a name="who-uses" class="anchor" href="#who-uses"><span class="octicon octicon-link"></span></a>Who uses?</h2>
+
+<p><strong>Windows Azure</strong> uses Omelette to support autocompletion in <a href="https://github.com/WindowsAzure/azure-sdk-tools-xplat">azure-cli</a>.</p>
+
+<h2>
 <a name="contribute" class="anchor" href="#contribute"><span class="octicon octicon-link"></span></a>Contribute</h2>
 
 <p>I need your contributions to make that work better!</p>
@@ -209,6 +297,8 @@ http://github.com/fka/blabla
 <a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
 <p>This project licensed under MIT.</p>
+
+<p><a href="http://codeship.io/f/omelette"><img src="https://www.codeship.io/projects/1ccaea50-8ffe-0131-9189-166ee657e7b4/status" alt="Build Status"></a></p>
       </section>
     </div>
 

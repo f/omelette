@@ -1,4 +1,4 @@
-# Omelette.js v0.2.1
+# Omelette.js v0.3.1
 
 [![Build Status](https://travis-ci.org/f/omelette.png?branch=master)](https://travis-ci.org/f/omelette)
 

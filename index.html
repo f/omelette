@@ -1,57 +1,56 @@
 <!DOCTYPE html>
 <html>
-
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Omelette : Omelette.js Simple Autocompletion Helper for Node" />
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
 
-    <title>Omelette</title>
+    <title>Omelette by f</title>
   </head>
 
   <body>
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/f/omelette">View on GitHub</a>
+    <header>
+      <div class="container">
+        <h1>Omelette</h1>
+        <h2>Omelette.js Simple Autocompletion Helper for Node</h2>
 
-          <h1 id="project_title">Omelette</h1>
-          <h2 id="project_tagline">Omelette.js Simple Autocompletion Helper for Node</h2>
+        <section id="downloads">
+          <a href="https://github.com/f/omelette/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/f/omelette/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/f/omelette" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/f/omelette/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/f/omelette/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
-    </div>
+    <div class="container">
+      <section id="main_content">
+        <h1>
+<a name="omelettejs-v001" class="anchor" href="#omelettejs-v001"><span class="octicon octicon-link"></span></a>Omelette.js v0.0.1</h1>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h1>Omelette.js v0.0.1</h1>
-
-<div class="highlight"><pre>npm install omelette
+<div class="highlight highlight-bash"><pre>npm install omelette
 </pre></div>
 
 <p>Omelette is a simple, template based autocompletion tool for Node projects.</p>
 
 <p>You just have to decide your program name and CLI fragments.</p>
 
-<div class="highlight"><pre><span class="nx">omelette</span> <span class="s">"githubber &lt;module&gt; &lt;command&gt; &lt;suboption&gt;"</span>
+<div class="highlight highlight-coffeescript"><pre><span class="nx">omelette</span> <span class="s">"githubber &lt;module&gt; &lt;command&gt; &lt;suboption&gt;"</span>
 </pre></div>
 
 <p>And you are almost done!</p>
 
 <p><img src="https://raw.github.com/f/omelette/master/resources/omelette.gif" alt="Example"></p>
 
-<h2>Quickstart</h2>
+<h2>
+<a name="quickstart" class="anchor" href="#quickstart"><span class="octicon octicon-link"></span></a>Quickstart</h2>
 
 <p>Implementing omelette is very easy.</p>
 
-<div class="highlight"><pre><span class="c1">#!/usr/bin/env coffee</span>
+<div class="highlight highlight-coffeescript"><pre><span class="c1">#!/usr/bin/env coffee</span>
 
 <span class="nv">omelette = </span><span class="nx">require</span> <span class="s">"omelette"</span>
 <span class="nv">comp = </span><span class="nx">omelette</span> <span class="s">"programname &lt;firstargument&gt;"</span>
@@ -62,7 +61,8 @@
 <span class="nx">comp</span><span class="p">.</span><span class="nx">init</span><span class="p">()</span>
 </pre></div>
 
-<h3>Code</h3>
+<h3>
+<a name="code" class="anchor" href="#code"><span class="octicon octicon-link"></span></a>Code</h3>
 
 <p>It's based on a simple CLI template.</p>
 
@@ -70,7 +70,7 @@
 
 <p>And in our program, code will be:</p>
 
-<div class="highlight"><pre><span class="c1">#!/usr/bin/env coffee</span>
+<div class="highlight highlight-coffeescript"><pre><span class="c1">#!/usr/bin/env coffee</span>
 
 <span class="nv">omelette = </span><span class="nx">require</span> <span class="s">"omelette"</span>
 
@@ -98,7 +98,7 @@
 
 <p>If you like oldschool:</p>
 
-<div class="highlight"><pre><span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"fs"</span><span class="p">),</span> 
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"fs"</span><span class="p">),</span> 
     <span class="nx">omelette</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">"omelette"</span><span class="p">);</span>
 
 <span class="c1">// Write your CLI template.</span>
@@ -129,18 +129,19 @@
 
 <p><code>complete.reply</code> is the completion replier. You should pass the options into that method.</p>
 
-<h3>Install</h3>
+<h3>
+<a name="install" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>Install</h3>
 
 <p>Installing, and making your users install the autocompletion feature is very simple.</p>
 
 <p>In <strong>zsh</strong>, you can write these:</p>
 
-<div class="highlight"><pre><span class="nb">echo</span> <span class="s1">'. &lt;(./githubber --completion)'</span> &gt;&gt; .zshrc
+<div class="highlight highlight-bash"><pre><span class="nb">echo</span> <span class="s1">'. &lt;(./githubber --completion)'</span> &gt;&gt; .zshrc
 </pre></div>
 
 <p>In <strong>bash</strong>, you should write:</p>
 
-<div class="highlight"><pre>./githubber --completion &gt;&gt; ~/githubber.completion.sh
+<div class="highlight highlight-bash"><pre>./githubber --completion &gt;&gt; ~/githubber.completion.sh
 <span class="nb">echo</span> <span class="s1">'source ~/githubber.completion.sh'</span> &gt;&gt; .bash_profile
 </pre></div>
 
@@ -148,11 +149,13 @@
 
 <p>Now you have an autocompletion system for your CLI tool.</p>
 
-<h2>Additions</h2>
+<h2>
+<a name="additions" class="anchor" href="#additions"><span class="octicon octicon-link"></span></a>Additions</h2>
 
 <p>There are some useful additions for omelette.</p>
 
-<h3> Parameters</h3>
+<h3>
+<a name="parameters" class="anchor" href="#parameters"><span class="octicon octicon-link"></span></a> Parameters</h3>
 
 <p>Callbacks have three parameters:</p>
 
@@ -161,58 +164,54 @@
 </li>
 <li>The parent word.</li>
 <li>The whole command line buffer allow you to parse and reply as you wish.</li>
-</ul><h3>Global Event</h3>
+</ul><h3>
+<a name="global-event" class="anchor" href="#global-event"><span class="octicon octicon-link"></span></a>Global Event</h3>
 
 <p>You also can be able to listen all fragments by "complete" event.</p>
 
-<div class="highlight"><pre><span class="nx">complete</span><span class="p">.</span><span class="nx">on</span> <span class="s">"complete"</span><span class="p">,</span> <span class="nf">(fragment, word, line)-&gt;</span> <span class="nx">@reply</span> <span class="p">[</span><span class="s">"hello"</span><span class="p">,</span> <span class="s">"world"</span><span class="p">]</span>
+<div class="highlight highlight-coffeescript"><pre><span class="nx">complete</span><span class="p">.</span><span class="nx">on</span> <span class="s">"complete"</span><span class="p">,</span> <span class="nf">(fragment, word, line)-&gt;</span> <span class="nx">@reply</span> <span class="p">[</span><span class="s">"hello"</span><span class="p">,</span> <span class="s">"world"</span><span class="p">]</span>
 </pre></div>
 
-<h3>Numbered Arguments</h3>
+<h3>
+<a name="numbered-arguments" class="anchor" href="#numbered-arguments"><span class="octicon octicon-link"></span></a>Numbered Arguments</h3>
 
 <p>You also can listen events by its order.</p>
 
-<div class="highlight"><pre><span class="nx">complete</span><span class="p">.</span><span class="nx">on</span> <span class="s">"$1"</span><span class="p">,</span> <span class="nf">(word, line)-&gt;</span> <span class="nx">@reply</span> <span class="p">[</span><span class="s">"hello"</span><span class="p">,</span> <span class="s">"world"</span><span class="p">]</span>
+<div class="highlight highlight-coffeescript"><pre><span class="nx">complete</span><span class="p">.</span><span class="nx">on</span> <span class="s">"$1"</span><span class="p">,</span> <span class="nf">(word, line)-&gt;</span> <span class="nx">@reply</span> <span class="p">[</span><span class="s">"hello"</span><span class="p">,</span> <span class="s">"world"</span><span class="p">]</span>
 </pre></div>
 
-<h2>Test</h2>
+<h2>
+<a name="test" class="anchor" href="#test"><span class="octicon octicon-link"></span></a>Test</h2>
 
 <p>Now, you can try it in your shell.</p>
 
-<div class="highlight"><pre><span class="nv">$ </span>./githubber&lt;tab&gt;
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>./githubber&lt;tab&gt;
 clone update push
 </pre></div>
 
-<div class="highlight"><pre><span class="nv">$ </span>./githubber cl&lt;tab&gt;
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>./githubber cl&lt;tab&gt;
 <span class="nv">$ </span>./githubber clone&lt;tab&gt;
 Guest fka
 </pre></div>
 
-<div class="highlight"><pre><span class="nv">$ </span>./githubber clone fka&lt;tab&gt;
+<div class="highlight highlight-bash"><pre><span class="nv">$ </span>./githubber clone fka&lt;tab&gt;
 <span class="nv">$ </span>./githubber clone fka http://github.com/fka/&lt;tab&gt;
 http://github.com/fka/helloworld
 http://github.com/fka/blabla
 </pre></div>
 
-<h2>Contribute</h2>
+<h2>
+<a name="contribute" class="anchor" href="#contribute"><span class="octicon octicon-link"></span></a>Contribute</h2>
 
 <p>I need your contributions to make that work better!</p>
 
-<h2>License</h2>
+<h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
 
 <p>This project licensed under MIT.</p>
       </section>
     </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Omelette maintained by <a href="https://github.com/f">f</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
-    </div>
-
     
-
   </body>
 </html>

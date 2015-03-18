@@ -61,7 +61,16 @@ class Omelette extends EventEmitter
         compdef #{completion} #{program}
       elif type complete &>/dev/null; then
         #{completion}() {
-          COMPREPLY=( $(compgen -W '$(#{@program} --compbash --compgen "${COMP_CWORD}" "${COMP_WORDS[COMP_CWORD-1]}" "${COMP_LINE}")' -- "${COMP_WORDS[COMP_CWORD]}") )
+          local cur prev
+          
+          cur=${COMP_WORDS[COMP_CWORD]}
+          prev=${COMP_WORDS[COMP_CWORD-1]}
+          
+          COMPREPLY=( $(compgen -W '$(#{@program} --compbash --compgen "${COMP_CWORD}" "${prev}" "${COMP_LINE}")' -- "$cur") )
+          
+          [[ $COMPREPLY ]] && return
+          
+          _filedir
         }
         complete -F #{completion} #{program}
       fi

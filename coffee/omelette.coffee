@@ -117,6 +117,7 @@ class Omelette extends EventEmitter
     {SHELL} = process.env
     if SHELL.match /bash/     then 'bash'
     else if SHELL.match /zsh/ then 'zsh'
+    else if SHELL.match /fish/ then 'fish'
 
   getDefaultShellInitFile: ->
 
@@ -128,6 +129,7 @@ class Omelette extends EventEmitter
     switch @shell = @getActiveShell()
       when 'bash' then fileAtHome '.bash_profile'
       when 'zsh'  then fileAtHome '.zshrc'
+      when 'fish'  then fileAtHome '.config/fish/config.fish'
 
   setupShellInitFile: (initFile=@getDefaultShellInitFile())->
 
@@ -151,6 +153,9 @@ class Omelette extends EventEmitter
 
       when 'zsh'
         fs.appendFileSync initFile, template ". <(#{@program} --completion)"
+
+      when 'fish'
+        fs.appendFileSync initFile, template "#{@program} --completion-fish | source"
 
     process.exit();
 

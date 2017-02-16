@@ -138,6 +138,8 @@ append a loader code to `~/.bash_profile` file.
 
 If you use Zsh, it just append a loader code to `~/.zshrc` file.
 
+If you use Fish, it just append a loader code to `~/.config/fish/config.fish` file.
+
 *TL;DR: It does the Manual Install part, basically.*
 
 #### Manual Install
@@ -155,6 +157,12 @@ In **bash**, you should write:
 ```bash
 ./githubber --completion >> ~/githubber.completion.sh
 echo 'source ~/githubber.completion.sh' >> .bash_profile
+```
+
+In **fish**, you can write:
+
+```bash
+echo 'githubber --completion-fish | source' >> ~/.config/fish/config.fish
 ```
 
 That's all!

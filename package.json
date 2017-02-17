@@ -1,20 +1,27 @@
 {
-  "name":         "omelette",
-  "description":  "Omelette.js Simple Autocompletion Helper for Node",
-  "keywords":     ["autocompletion", "complete", "bash completion", "zsh completion"],
-  "author":       "Fatih Kadir Akın <fka@fatihak.in>",
-  "version":      "0.3.1",
-  "licenses":     [{
-    "type":       "MIT"
-  }],
-  "engines":      {
-    "node":       ">=0.8.0"
+  "name": "omelette",
+  "description": "Omelette.js Simple Autocompletion Helper for Node",
+  "keywords": [
+    "autocompletion",
+    "complete",
+    "bash completion",
+    "zsh completion"
+  ],
+  "author": "Fatih Kadir Akın <fka@fatihak.in>",
+  "version": "0.3.2",
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
+  "engines": {
+    "node": ">=0.8.0"
   },
-  "main" :        "./src/omelette.js",
-  "homepage":     "https://github.com/f/omelette",
-  "bugs":         "https://github.com/f/omelette/issues",
-  "repository":   {
-    "type":       "git",
-    "url":        "git://github.com/f/omelette.git"
+  "main": "./src/omelette.js",
+  "homepage": "https://github.com/f/omelette",
+  "bugs": "https://github.com/f/omelette/issues",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/f/omelette.git"
   }
 }

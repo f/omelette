@@ -183,7 +183,7 @@ Callbacks have two parameters:
   - The fragment name (e.g.`command` of `<command>` template) *(only in global event)*
   - The meta data
     - `fragment`: The number of fragment.
-    - `prev`: The previous word.
+    - `before`: The previous word.
     - `line`: The whole command line buffer allow you to parse and reply as you wish.
     - `reply`: This is the reply function to use *this-less* API.
 

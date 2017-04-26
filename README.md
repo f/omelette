@@ -175,7 +175,8 @@ Now you have an autocompletion system for your CLI tool.
 
 There are some useful additions for omelette.
 
-### Parameters
+
+### Parameters
 
 Callbacks have two parameters:
 

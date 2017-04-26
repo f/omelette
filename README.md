@@ -106,7 +106,7 @@ const completion = omelette`
   githubber|gh
   
   ${["clone", "update", "push"]}
-  ${fs.readdirSync("/Users/")} 
+  ${() => fs.readdirSync("/Users/")} 
   ${({ before }) => [
     `http://github.com/${before}/helloworld`,
     `http://github.com/${before}/blabla`

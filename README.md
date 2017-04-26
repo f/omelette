@@ -1,8 +1,10 @@
-# Omelette.js v0.3.2
+# Omelette.js v0.4.0
 
 [![Build Status](https://travis-ci.org/f/omelette.png?branch=master)](https://travis-ci.org/f/omelette)
 
 ```bash
+yarn add omelette
+# or
 npm install omelette
 ```
 
@@ -10,8 +12,8 @@ Omelette is a simple, template based autocompletion tool for Node projects.
 
 You just have to decide your program name and CLI fragments.
 
-```coffeescript
-omelette "githubber <module> <command> <suboption>"
+```javascript
+omelette('githubber <module> <command> <suboption>')
 ```
 
 And you are almost done!
@@ -20,24 +22,24 @@ And you are almost done!
 
 A more detailed template spec:
 
-```coffeescript
-omelette "<programname>[|<shortname>|<short>|<...>] <module> [<command> <suboption> <...>]"
+```javascript
+omelette('<programname>[|<shortname>|<short>|<...>] <module> [<command> <suboption> <...>]')
 ```
 
-## Quickstart
+## Quick Start
 
 Implementing omelette is very easy.
 
-```coffeescript
-#!/usr/bin/env coffee
+```javascript
+import * as omelette from 'omelette';
 
-omelette = require "omelette"
-comp = omelette "programname|prgmnm|prgnm <firstargument>"
+const completion = omelette('programname|prgmnm|prgnm <firstargument>');
 
-comp.on "firstargument", ->
-  @reply ["hello", "cruel", "world"]
+completion.on('firstargument', ({ reply }) => {
+  reply(["hello", "cruel", "world"]);
+});
 
-comp.init()
+comp.init();
 ```
 
 **You can add multiple names to programs**
@@ -50,75 +52,75 @@ Let's think we have a executable file with the name **githubber**, *in a global 
 
 And in our program, code will be:
 
-```coffeescript
-#!/usr/bin/env coffee
-
-omelette = require "omelette"
-
-# Write your CLI template.
-complete = omelette "githubber|gh <action> <user> <repo>"
-
-# Bind events for every template part.
-complete.on "action", -> @reply ["clone", "update", "push"]
-
-complete.on "user", (action)-> @reply fs.readdirSync "/Users/"
-
-complete.on "repo", (user)->
-  @reply [
-    "http://github.com/#{user}/helloworld"
-    "http://github.com/#{user}/blabla"
-  ]
-
-# Initialize the omelette.
-complete.init()
-
-# If you want to have a setup feature, you can use `omeletteInstance.setupShellInitFile()` function.
-if ~process.argv.indexOf '--setup'
-  complete.setupShellInitFile()
-
-# Rest is yours
-console.log "Your program's default workflow."
-console.log process.argv
-```
-
-If you like oldschool:
-
 ```javascript
-var fs = require("fs"),
-    omelette = require("omelette");
+import * as omelette from 'omelette';
 
 // Write your CLI template.
-var complete = omelette("githubber|gh <action> <user> <repo>");
+const completion = omelette(`githubber|gh <action> <user> <repo>`);
 
-complete.on("action", function() {
-  this.reply(["clone", "update", "push"]);
-});
+// Bind events for every template part.
+completion.on("action", ({ reply }) => reply(["clone", "update", "push"]));
 
-complete.on("user", function(action) {
-  this.reply(fs.readdirSync("/Users/"));
-});
+completion.on("user", ({ reply }) => reply(fs.readdirSync("/Users/")));
 
-complete.on("repo", function(user) {
-  this.reply([
-    "http://github.com/" + user + "/helloworld",
-    "http://github.com/" + user + "/blabla"
+completion.on("repo", ({ before, reply }) => {
+  reply([
+    `http://github.com/${before}/helloworld`,
+    `http://github.com/${before}/blabla`
   ]);
-});
+);
 
 // Initialize the omelette.
-complete.init();
+completion.init();
 
 // If you want to have a setup feature, you can use `omeletteInstance.setupShellInitFile()` function.
-if (~process.argv.indexOf '--setup') {
+if (~process.argv.indexOf('--setup') {
   complete.setupShellInitFile();
 }
 
-// Rest is yours.
+// Rest is yours
 console.log("Your program's default workflow.");
 console.log(process.argv);
 ```
 
-`complete.reply` is the completion replier. You should pass the options into that method.
+`complete.reply` is the completion replier. You must pass the options into that method.
+
+### ES6 Template Literals 🚀
+
+You can use **Template Literals** to define your completion with a simpler (super easy) API.
+
+```javascript
+import * as omelette from 'omelette';
+
+// Just pass a template literal to use super easy API.
+omelette`hello ${['cruel', 'nice']} ${['world', 'mars']}`.init();
+```
+
+Also you can still use lambda functions to make more complex template literals:
+
+#### Advanced Template Literals
+
+```javascript
+import * as omelette from 'omelette';
+
+omelette`
+  githubber|gh
+      ${['pull', 'push', 'star'] /* Direct command list */}
+      ${require('some/other/commands') /* Import from another file */}
+      ${getFromRemote('http://api.example.com/commands') /* Remote call at the beginning */}
+      ${({ reply }) => fetch('http://api.example.com/lazy-commands').then(reply) /* Fetch when argument <tab>bed */}
+      ${() => fs.readdirSync("/Users/") /* Access filesystem via Node */}
+      ${({ before }) => [ /* Use parameters like `before`, `line`, `fragment` or `reply` */
+        `${before}/helloworld`,
+        `${before}/blabla`
+      ]}
+  `.init();
+
+// No extra configuration required.
+
+console.log("Your program's default workflow.");
+console.log(process.argv);
+```
 
 ### Install
 
@@ -175,26 +177,29 @@ There are some useful additions for omelette.
 
 ### Parameters
 
-Callbacks have three parameters:
+Callbacks have two parameters:
 
-  - The number of fragment *just for global event*
-  - The parent word.
-  - The whole command line buffer allow you to parse and reply as you wish.
+  - The fragment name (e.g.`command` of `<command>` template) *(only in global event)*
+  - The meta data
+    - `fragment`: The number of fragment.
+    - `prev`: The previous word.
+    - `line`: The whole command line buffer allow you to parse and reply as you wish.
+    - `reply`: This is the reply function to use *this-less* API.
 
 ### Global Event
 
 You also can be able to listen all fragments by "complete" event.
 
-```coffeescript
-complete.on "complete", (fragment, word, line)-> @reply ["hello", "world"]
+```javascript
+complete.on('complete', (fragment, { reply }) => reply(["hello", "world"]));
 ```
 
 ### Numbered Arguments
 
 You also can listen events by its order.
 
-```coffeescript
-complete.on "$1", (word, line)-> @reply ["hello", "world"]
+```javascript
+complete.on('$1', ({ reply }) => reply(["hello", "world"]))
 ```
 
 ### Short Names
@@ -203,8 +208,8 @@ You can set short name of an executable:
 
 In this example, `githubber` is long and `gh` is shorter examples.
 
-```coffeescript
-omelette "githubber|gh <module> <command> <suboption>"
+```javascript
+omelette('githubber|gh <module> <command> <suboption>');
 ```
 
 ## Test
@@ -213,10 +218,10 @@ Now, you can try it in your shell.
 
 ```bash
 git clone https://github.com/f/omelette
-cd omelette/examples
+cd omelette/example
 alias githubber="./githubber" # The app should be global, completion will search it on global level.
 ./githubber --setup --debug # --setup is not provided by omelette, you should proxy it.
-# (reload bash, or source ~/.bash_profile)
+# (reload bash, or source ~/.bash_profile or ~/.config/fish/config.fish)
 omelette-debug-githubber # See Debugging section
 githubber<tab>
 ghb<tab> # short alias

@@ -102,12 +102,15 @@ Let's make the example above with ES6 TL:
 import * as omelette from 'omelette';
 
 // Write your CLI template.
-const completion = omelette`githubber|gh ${["clone", "update", "push"]} ${fs.readdirSync("/Users/")} ${({ before }) => {
-  [
+const completion = omelette`
+  githubber|gh
+  
+  ${["clone", "update", "push"]}
+  ${fs.readdirSync("/Users/")} 
+  ${({ before }) => [
     `http://github.com/${before}/helloworld`,
     `http://github.com/${before}/blabla`
-  ]
-}}`;
+  ]}`;
 
 completion.init();
 ```

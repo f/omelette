@@ -96,6 +96,22 @@ import * as omelette from 'omelette';
 omelette`hello ${['cruel', 'nice']} ${['world', 'mars']}`.init();
 ```
 
+Let's make the example above with ES6 TL:
+
+```javascript
+import * as omelette from 'omelette';
+
+// Write your CLI template.
+const completion = omelette`githubber|gh ${["clone", "update", "push"]} ${fs.readdirSync("/Users/")} ${({ before }) => {
+  [
+    `http://github.com/${before}/helloworld`,
+    `http://github.com/${before}/blabla`
+  ]
+}}`;
+
+completion.init();
+```
+
 Also you can still use lambda functions to make more complex template literals:
 
 #### Advanced Template Literals

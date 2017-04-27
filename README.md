@@ -1,5 +1,7 @@
 <img src="https://rawgit.com/f/omelette/master/resources/omelette.svg" height="80">
 
+> Omelette is a simple, template based autocompletion tool for Node projects with super easy API.
+
 [![npm version](https://badge.fury.io/js/omelette.svg)](https://badge.fury.io/js/omelette)
 [![Build Status](https://travis-ci.org/f/omelette.svg?branch=master)](https://travis-ci.org/f/omelette)
 
@@ -9,23 +11,15 @@ yarn add omelette
 npm install omelette
 ```
 
-Omelette is a simple, template based autocompletion tool for Node projects.
-
 You just have to decide your program name and CLI fragments.
 
 ```javascript
-omelette('githubber <module> <command> <suboption>')
+omelette`github ${['pull', 'push']} ${['origin', 'upstream']} ${['master', 'develop']}`.init()
 ```
 
 And you are almost done!
 
 ![Example](https://raw.github.com/f/omelette/master/resources/omelette.gif)
-
-A more detailed template spec:
-
-```javascript
-omelette('<programname>[|<shortname>|<short>|<...>] <module> [<command> <suboption> <...>]')
-```
 
 ## Quick Start
 
@@ -34,18 +28,18 @@ Implementing omelette is very easy.
 ```javascript
 import * as omelette from 'omelette';
 
-const completion = omelette('programname|prgmnm|prgnm <firstargument>');
+const firstArgument = ({ reply }) => {
+  reply([ 'beautiful', 'cruel', 'far' ])
+}
 
-completion.on('firstargument', ({ reply }) => {
-  reply(["hello", "cruel", "world"]);
-});
+const planet = ({ reply }) => {
+  reply([ 'world', 'mars', 'pluto' ])
+}
 
-comp.init();
+omelette`hello|hi ${firstArgument} ${planet}`.init()
 ```
 
-**You can add multiple names to programs**
-
-### Code
+### Simple Event Based API ☕️
 
 It's based on a simple CLI template.
 
@@ -60,33 +54,37 @@ import * as omelette from 'omelette';
 const completion = omelette(`githubber|gh <action> <user> <repo>`);
 
 // Bind events for every template part.
-completion.on("action", ({ reply }) => reply(["clone", "update", "push"]));
+completion.on('action', ({ reply }) => {
+  reply([ 'clone', 'update', 'push' ])
+})
 
-completion.on("user", ({ reply }) => reply(fs.readdirSync("/Users/")));
+completion.on('user', ({ reply }) => {
+  reply(fs.readdirSync('/Users/'))
+})
 
-completion.on("repo", ({ before, reply }) => {
+completion.on('repo', ({ before, reply }) => {
   reply([
     `http://github.com/${before}/helloworld`,
     `http://github.com/${before}/blabla`
-  ]);
-);
+  ])
+})
 
 // Initialize the omelette.
-completion.init();
+completion.init()
 
 // If you want to have a setup feature, you can use `omeletteInstance.setupShellInitFile()` function.
 if (~process.argv.indexOf('--setup') {
-  complete.setupShellInitFile();
+  complete.setupShellInitFile()
 }
 
 // Rest is yours
-console.log("Your program's default workflow.");
-console.log(process.argv);
+console.log("Your program's default workflow.")
+console.log(process.argv)
 ```
 
 `complete.reply` is the completion replier. You must pass the options into that method.
 
-### ES6 Template Literals 🚀
+### ES6 Template Literal API 🚀
 
 You can use **Template Literals** to define your completion with a simpler (super easy) API.
 
@@ -94,26 +92,25 @@ You can use **Template Literals** to define your completion with a simpler (supe
 import * as omelette from 'omelette';
 
 // Just pass a template literal to use super easy API.
-omelette`hello ${['cruel', 'nice']} ${['world', 'mars']}`.init();
+omelette`hello ${[ 'cruel', 'nice' ]} ${[ 'world', 'mars' ]}`.init()
 ```
 
 Let's make the example above with ES6 TL:
 
 ```javascript
-import * as omelette from 'omelette';
+import * as omelette from 'omelette'
 
 // Write your CLI template.
-const completion = omelette`
+omelette`
   githubber|gh
   
-  ${["clone", "update", "push"]}
-  ${() => fs.readdirSync("/Users/")} 
+  ${[ 'clone', 'update', 'push' ]}
+  ${() => fs.readdirSync('/Users/')} 
   ${({ before }) => [
     `http://github.com/${before}/helloworld`,
-    `http://github.com/${before}/blabla`
-  ]}`;
-
-completion.init();
+    `http://github.com/${before}/blabla`,
+  ]}
+`.init()
 ```
 
 Also you can still use lambda functions to make more complex template literals:
@@ -134,12 +131,12 @@ omelette`
         `${before}/helloworld`,
         `${before}/blabla`
       ]}
-  `.init();
+  `.init()
 
 // No extra configuration required.
 
-console.log("Your program's default workflow.");
-console.log(process.argv);
+console.log("Your program's default workflow.")
+console.log(process.argv)
 ```
 
 ### Install
@@ -152,15 +149,15 @@ You can use simply use `setupShellInitFile` function.
 
 ```javascript
 // If you want to write file,
-complete.setupShellInitFile('~/.my_bash_profile');
+complete.setupShellInitFile('~/.my_bash_profile')
 ```
 
 If you use Bash, it will create a file at `~/.<program-name>/completion.sh` and
 append a loader code to `~/.bash_profile` file.
 
-If you use Zsh, it just append a loader code to `~/.zshrc` file.
+If you use Zsh, it appends a loader code to `~/.zshrc` file.
 
-If you use Fish, it just append a loader code to `~/.config/fish/config.fish` file.
+If you use Fish, it appends a loader code to `~/.config/fish/config.fish` file.
 
 *TL;DR: It does the Manual Install part, basically.*
 

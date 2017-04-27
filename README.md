@@ -17,9 +17,9 @@ You just have to decide your program name and CLI fragments.
 omelette`github ${['pull', 'push']} ${['origin', 'upstream']} ${['master', 'develop']}`.init()
 ```
 
-And you are almost done!
+And you are almost done! The output will be like this:
 
-![Example](https://raw.github.com/f/omelette/master/resources/omelette.gif)
+![Example](https://raw.github.com/f/omelette/master/resources/omelette-new.gif?v1)
 
 ## Quick Start
 

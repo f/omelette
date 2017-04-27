@@ -17,9 +17,9 @@ You just have to decide your program name and CLI fragments.
 omelette`github ${['pull', 'push']} ${['origin', 'upstream']} ${['master', 'develop']}`.init()
 ```
 
-And you are almost done!
+And you are almost done! The output will be like this:
 
-![Example](https://raw.github.com/f/omelette/master/resources/omelette.gif)
+<img src="https://raw.github.com/f/omelette/master/resources/omelette-new.gif?v1" width="640">
 
 ## Quick Start
 
@@ -38,6 +38,8 @@ const planet = ({ reply }) => {
 
 omelette`hello|hi ${firstArgument} ${planet}`.init()
 ```
+
+<img src="https://raw.github.com/f/omelette/master/resources/omelette-new-hello.gif?v1" width="640">
 
 ### Simple Event Based API ☕️
 

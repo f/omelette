@@ -19,7 +19,7 @@ omelette`github ${['pull', 'push']} ${['origin', 'upstream']} ${['master', 'deve
 
 And you are almost done! The output will be like this:
 
-<img src="https://raw.github.com/f/omelette/master/resources/omelette-new.gif?v1" width="500">
+<img src="https://raw.github.com/f/omelette/master/resources/omelette-new.gif?v1" width="640">
 
 ## Quick Start
 
@@ -38,6 +38,8 @@ const planet = ({ reply }) => {
 
 omelette`hello|hi ${firstArgument} ${planet}`.init()
 ```
+
+<img src="https://raw.github.com/f/omelette/master/resources/omelette-new-hello.gif?v1" width="640">
 
 ### Simple Event Based API ☕️
 

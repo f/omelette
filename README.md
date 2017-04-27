@@ -1,8 +1,7 @@
 <img src="https://rawgit.com/f/omelette/master/resources/omelette.svg" height="80">
 
 [![npm version](https://badge.fury.io/js/omelette.svg)](https://badge.fury.io/js/omelette)
-
-[![Build Status](https://travis-ci.org/f/omelette.png?branch=master)](https://travis-ci.org/f/omelette)
+[![Build Status](https://travis-ci.org/f/omelette.svg?branch=master)](https://travis-ci.org/f/omelette)
 
 ```bash
 yarn add omelette

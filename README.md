@@ -19,7 +19,7 @@ omelette`github ${['pull', 'push']} ${['origin', 'upstream']} ${['master', 'deve
 
 And you are almost done! The output will be like this:
 
-![Example](https://raw.github.com/f/omelette/master/resources/omelette-new.gif?v1)
+<img src="https://raw.github.com/f/omelette/master/resources/omelette-new.gif?v1" width="500">
 
 ## Quick Start
 

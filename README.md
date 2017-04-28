@@ -1,4 +1,4 @@
-<img src="https://rawgit.com/f/omelette/master/resources/omelette.svg" height="80">
+<img src="https://rawgit.com/f/omelette/master/resources/omelette.svg?v1" height="80">
 
 > Omelette is a simple, template based autocompletion tool for Node projects with super easy API.
 

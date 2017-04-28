@@ -2,7 +2,7 @@ title: Omelette
 description: Omelette is a simple, template based autocompletion tool for Node projects with super easy API.
 google_analytics: 
 show_downloads: true
-theme: jekyll-theme-hacker
+theme: jekyll-theme-tactile
 
 gems:
   - jekyll-mentions

@@ -65,6 +65,7 @@ class Omelette extends EventEmitter
       elif type complete &>/dev/null; then
         #{completion}() {
           COMPREPLY=( $(compgen -W '$(#{@program} --compbash --compgen "${COMP_CWORD}" "${COMP_WORDS[COMP_CWORD-1]}" "${COMP_LINE}")' -- "${COMP_WORDS[COMP_CWORD]}") )
+          COMP_WORDBREAKS=${COMP_WORDBREAKS//:}
         }
         complete -F #{completion} #{program}
       fi

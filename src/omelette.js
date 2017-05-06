@@ -5,9 +5,9 @@
  */
 
 (function() {
-  var EventEmitter, Omelette, fs, os, path,
-    extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+  var EventEmitter, Omelette, depthOf, fs, os, path,
     hasProp = {}.hasOwnProperty,
+    extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     slice = [].slice;
 
   EventEmitter = require("events").EventEmitter;
@@ -18,6 +18,19 @@
 
   os = require("os");
 
+  depthOf = function(object) {
+    var depth, key, level;
+    level = 1;
+    for (key in object) {
+      if (!hasProp.call(object, key)) continue;
+      if (typeof object[key] === 'object') {
+        depth = depthOf(object[key]) + 1;
+        level = Math.max(depth, level);
+      }
+    }
+    return level;
+  };
+
   Omelette = (function(superClass) {
     var log;
 
@@ -26,7 +39,7 @@
     log = console.log;
 
     function Omelette() {
-      var isFish, isZsh, ref;
+      var isFish, isZsh, ref, ref1;
       this.compgen = process.argv.indexOf("--compgen");
       this.install = process.argv.indexOf("--completion") > -1;
       this.installFish = process.argv.indexOf("--completion-fish") > -1;
@@ -35,8 +48,8 @@
       this.isDebug = process.argv.indexOf("--debug") > -1;
       this.fragment = parseInt(process.argv[this.compgen + 1]) - (isZsh ? 1 : 0);
       this.line = process.argv[this.compgen + 3];
-      this.word = this.line.trim().split(/\s+/).pop();
-      ref = process.env, this.HOME = ref.HOME, this.SHELL = ref.SHELL;
+      this.word = (ref = this.line) != null ? ref.trim().split(/\s+/).pop() : void 0;
+      ref1 = process.env, this.HOME = ref1.HOME, this.SHELL = ref1.SHELL;
     }
 
     Omelette.prototype.setProgram = function(programs) {
@@ -73,6 +86,34 @@
       }
       console.log(typeof words.join === "function" ? words.join(os.EOL) : void 0);
       return process.exit();
+    };
+
+    Omelette.prototype.tree = function(objectTree) {
+      var depth, i, level, ref;
+      if (objectTree == null) {
+        objectTree = {};
+      }
+      depth = depthOf(objectTree);
+      for (level = i = 1, ref = depth; 1 <= ref ? i <= ref : i >= ref; level = 1 <= ref ? ++i : --i) {
+        this.on("$" + level, function(arg) {
+          var accessor, fragment, line, replies, reply;
+          fragment = arg.fragment, reply = arg.reply, line = arg.line;
+          accessor = new Function('_', "return _['" + (line.split(/\s+/).slice(1).filter(Boolean).join("']['")) + "']");
+          replies = fragment === 1 ? Object.keys(objectTree) : accessor(objectTree);
+          return reply((function(replies) {
+            if (replies instanceof Function) {
+              return replies();
+            }
+            if (replies instanceof Array) {
+              return replies;
+            }
+            if (replies instanceof Object) {
+              return Object.keys(replies);
+            }
+          })(replies));
+        });
+      }
+      return this;
     };
 
     Omelette.prototype.generateCompletionCode = function() {

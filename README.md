@@ -222,6 +222,36 @@ You also can listen events by its order.
 complete.on('$1', ({ reply }) => reply(["hello", "world"]))
 ```
 
+### Autocompletion Tree
+
+You can create **completion tree** to more complex autocompletions.
+
+```js
+omelette('hello').tree({
+  how: {
+    much: {
+      is: {
+        this: ['car'],
+        that: ['house'],
+      }
+    }
+    are: ['you'],
+    many: ['cars', 'houses'],
+  },
+  where: {
+    are: {
+      you: ['from'],
+      the: ['houses', 'cars'],
+    },
+    is: {
+      your: ['house', 'car'],
+    }
+  },
+}).init()
+```
+
+> Thanks [@jblandry](https://github.com/jblandry) for the idea.
+
 ### Short Names
 
 You can set short name of an executable:

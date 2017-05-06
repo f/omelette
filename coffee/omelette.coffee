@@ -6,6 +6,14 @@ path           = require "path"
 fs             = require "fs"
 os             = require "os"
 
+depthOf = (object) ->
+  level = 1
+  for own key of object
+    if typeof object[key] is 'object'
+      depth = depthOf(object[key]) + 1
+      level = Math.max(depth, level)
+  level
+
 class Omelette extends EventEmitter
 
   {log} = console
@@ -20,7 +28,7 @@ class Omelette extends EventEmitter
 
     @fragment = parseInt(process.argv[@compgen+1])-(if isZsh then 1 else 0)
     @line     = process.argv[@compgen+3]
-    @word     = @line.trim().split(/\s+/).pop()
+    @word     = @line?.trim().split(/\s+/).pop()
 
     {@HOME, @SHELL} = process.env
 
@@ -51,6 +59,20 @@ class Omelette extends EventEmitter
   reply: (words=[])->
     console.log words.join? os.EOL
     process.exit()
+
+  tree: (objectTree={})->
+    depth = depthOf objectTree
+    for level in [1..depth]
+      @on "$#{level}", ({ fragment, reply, line })->
+        accessor = new Function '_', """
+          return _['#{line.split(/\s+/).slice(1).filter(Boolean).join("']['")}']
+        """
+        replies = if fragment is 1 then Object.keys(objectTree) else accessor(objectTree)
+        reply do (replies = replies)->
+          return replies() if replies instanceof Function
+          return replies if replies instanceof Array
+          return Object.keys(replies) if replies instanceof Object
+    this
 
   generateCompletionCode: ->
     completions = @programs.map (program)=>

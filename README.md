@@ -252,7 +252,7 @@ omelette('hello').tree({
 
 Now you will be able to use your completion as tree.
 
-<img src="https://raw.github.com/f/omelette/master/resources/omelette-tree.gif?v1" width="640">
+<img src="https://raw.github.com/f/omelette/master/resources/omelette-tree-new.gif?v1" width="640">
 
 > Thanks [@jblandry](https://github.com/jblandry) for the idea.
 

@@ -244,7 +244,10 @@ omelette('hello').tree({
       the: ['houses', 'cars'],
     },
     is: {
-      your: ['house', 'car'],
+      // You can also add some logic with defining functions:
+      your() {
+        return ['house', 'car'];
+      },
     }
   },
 }).init()

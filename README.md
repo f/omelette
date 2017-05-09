@@ -141,9 +141,20 @@ console.log("Your program's default workflow.")
 console.log(process.argv)
 ```
 
-### Install
+### Tree API 🌲
 
-#### Automated Install
+You can use `simple objects` as autocompletion definitions:
+
+```javascript
+omelette('hello').tree({
+  cruel: ['world', 'moon'],
+  beautiful: ['mars', 'pluto']
+}).init();
+```
+
+## Install
+
+### Automated Install
 
 Installing, and making your users install the autocompletion feature is very simple.
 
@@ -163,7 +174,7 @@ If you use Fish, it appends a loader code to `~/.config/fish/config.fish` file.
 
 *TL;DR: It does the Manual Install part, basically.*
 
-#### Manual Install
+### Manual Install
 
 *(You should add these instructions to your project's README)*
 
@@ -244,7 +255,10 @@ omelette('hello').tree({
       the: ['houses', 'cars'],
     },
     is: {
-      your: ['house', 'car'],
+      // You can also add some logic with defining functions:
+      your() {
+        return ['house', 'car'];
+      },
     }
   },
 }).init()
@@ -255,6 +269,14 @@ Now you will be able to use your completion as tree.
 <img src="https://raw.github.com/f/omelette/master/resources/omelette-tree-new.gif?v1" width="640">
 
 > Thanks [@jblandry](https://github.com/jblandry) for the idea.
+
+#### Advanced Tree Implementations
+
+You can seperate your autocompletion by importing objects from another file:
+
+```js
+omelette('hello').tree(require('./autocompletion-tree.js')).init();
+```
 
 ### Short Names
 

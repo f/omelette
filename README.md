@@ -76,7 +76,7 @@ completion.init()
 
 // If you want to have a setup feature, you can use `omeletteInstance.setupShellInitFile()` function.
 if (~process.argv.indexOf('--setup')) {
-  complete.setupShellInitFile()
+  completion.setupShellInitFile()
 }
 
 // Rest is yours

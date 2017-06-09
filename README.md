@@ -75,7 +75,7 @@ completion.on('repo', ({ before, reply }) => {
 completion.init()
 
 // If you want to have a setup feature, you can use `omeletteInstance.setupShellInitFile()` function.
-if (~process.argv.indexOf('--setup') {
+if (~process.argv.indexOf('--setup')) {
   completion.setupShellInitFile()
 }
 

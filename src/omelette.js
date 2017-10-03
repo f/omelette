@@ -98,7 +98,7 @@
         this.on("$" + level, function(arg) {
           var accessor, fragment, line, replies, reply;
           fragment = arg.fragment, reply = arg.reply, line = arg.line;
-          accessor = new Function('_', "return _['" + (line.split(/\s+/).slice(1).filter(Boolean).join("']['")) + "']");
+          accessor = new Function('_', "return _['" + (line.split(/\s+/).slice(1, -1).filter(Boolean).join("']['")) + "']");
           replies = fragment === 1 ? Object.keys(objectTree) : accessor(objectTree);
           return reply((function(replies) {
             if (replies instanceof Function) {

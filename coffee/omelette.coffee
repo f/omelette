@@ -65,7 +65,7 @@ class Omelette extends EventEmitter
     for level in [1..depth]
       @on "$#{level}", ({ fragment, reply, line })->
         accessor = new Function '_', """
-          return _['#{line.split(/\s+/).slice(1).filter(Boolean).join("']['")}']
+          return _['#{line.split(/\s+/).slice(1, -1).filter(Boolean).join("']['")}']
         """
         replies = if fragment is 1 then Object.keys(objectTree) else accessor(objectTree)
         reply do (replies = replies)->

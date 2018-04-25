@@ -19,6 +19,7 @@ class Omelette extends EventEmitter
   {log} = console
 
   constructor: ->
+    super()
     @compgen  = process.argv.indexOf "--compgen"
     @install  = process.argv.indexOf("--completion") > -1
     @installFish  = process.argv.indexOf("--completion-fish") > -1
@@ -27,7 +28,7 @@ class Omelette extends EventEmitter
     @isDebug  = process.argv.indexOf("--debug") > -1
 
     @fragment = parseInt(process.argv[@compgen+1])-(if isZsh then 1 else 0)
-    @line     = process.argv[@compgen+3]
+    @line     = process.argv.slice(@compgen+3).join(' ')
     @word     = @line?.trim().split(/\s+/).pop()
 
     {@HOME, @SHELL} = process.env
@@ -64,8 +65,9 @@ class Omelette extends EventEmitter
     depth = depthOf objectTree
     for level in [1..depth]
       @on "$#{level}", ({ fragment, reply, line })->
+        if !(/\s+/.test( line.slice(-1) )) then lastIndex = -1
         accessor = new Function '_', """
-          return _['#{line.split(/\s+/).slice(1, -1).filter(Boolean).join("']['")}']
+          return _['#{line.split(/\s+/).slice(1, lastIndex).filter(Boolean).join("']['")}']
         """
         replies = if fragment is 1 then Object.keys(objectTree) else accessor(objectTree)
         reply do (replies = replies)->

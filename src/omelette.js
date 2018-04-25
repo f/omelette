@@ -75,12 +75,24 @@
         this.emit("complete", this.fragments[this.fragment - 1], data);
         this.emit(this.fragments[this.fragment - 1], data);
         this.emit(`$${this.fragment}`, data);
-        return process.exit();
+        return setTimeout(function() {
+          return process.exit();
+        }, 500);
       }
 
       reply(words = []) {
-        console.log(typeof words.join === "function" ? words.join(os.EOL) : void 0);
-        return process.exit();
+        var callback;
+        callback = function(words) {
+          console.log(typeof words.join === "function" ? words.join(os.EOL) : void 0);
+          return process.exit();
+        };
+        if (typeof words.then === "function") {
+          return words.then(function(words) {
+            return callback(words);
+          });
+        } else {
+          return callback(words);
+        }
       }
 
       tree(objectTree = {}) {

@@ -55,11 +55,21 @@ class Omelette extends EventEmitter
     @emit "complete", @fragments[@fragment-1], data
     @emit @fragments[@fragment-1], data
     @emit "$#{@fragment}", data
-    process.exit()
+    setTimeout(() ->
+      process.exit()
+    ,500)
 
   reply: (words=[])->
-    console.log words.join? os.EOL
-    process.exit()
+    callback = (words) ->
+      console.log words.join? os.EOL
+      process.exit()
+    
+    if typeof words.then == "function"
+      words.then((words) ->
+        callback(words)
+      )
+    else
+      return callback(words)
 
   tree: (objectTree={})->
     depth = depthOf objectTree

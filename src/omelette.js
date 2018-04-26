@@ -41,6 +41,7 @@
     function Omelette() {
       var isFish, isZsh, ref, ref1;
       Omelette.__super__.constructor.call(this);
+      this.asyncs = 0;
       this.compgen = process.argv.indexOf("--compgen");
       this.install = process.argv.indexOf("--completion") > -1;
       this.installFish = process.argv.indexOf("--completion-fish") > -1;
@@ -51,6 +52,7 @@
       this.line = process.argv.slice(this.compgen + 3).join(' ');
       this.word = (ref = this.line) != null ? ref.trim().split(/\s+/).pop() : void 0;
       ref1 = process.env, this.HOME = ref1.HOME, this.SHELL = ref1.SHELL;
+      this.mainProgram = function() {};
     }
 
     Omelette.prototype.setProgram = function(programs) {
@@ -78,15 +80,32 @@
       this.emit("complete", this.fragments[this.fragment - 1], data);
       this.emit(this.fragments[this.fragment - 1], data);
       this.emit("$" + this.fragment, data);
-      return process.exit();
+      if (this.asyncs === 0) {
+        return process.exit();
+      } else {
+        return this.mainProgram();
+      }
     };
 
     Omelette.prototype.reply = function(words) {
       if (words == null) {
         words = [];
       }
-      console.log(typeof words.join === "function" ? words.join(os.EOL) : void 0);
-      return process.exit();
+      if (words instanceof Promise) {
+        return words.then(function(asyncWords) {
+          console.log(typeof asyncWords.join === "function" ? asyncWords.join(os.EOL) : void 0);
+          return process.exit();
+        });
+      } else {
+        console.log(typeof words.join === "function" ? words.join(os.EOL) : void 0);
+        return process.exit();
+      }
+    };
+
+    Omelette.prototype.next = function(handler) {
+      if (typeof handler === 'function') {
+        return this.mainProgram = handler;
+      }
     };
 
     Omelette.prototype.tree = function(objectTree) {
@@ -174,13 +193,11 @@
     };
 
     Omelette.prototype.getActiveShell = function() {
-      var SHELL;
-      SHELL = process.env.SHELL;
-      if (SHELL.match(/bash/)) {
+      if (this.SHELL.match(/bash/)) {
         return 'bash';
-      } else if (SHELL.match(/zsh/)) {
+      } else if (this.SHELL.match(/zsh/)) {
         return 'zsh';
-      } else if (SHELL.match(/fish/)) {
+      } else if (this.SHELL.match(/fish/)) {
         return 'fish';
       }
     };
@@ -235,6 +252,15 @@
     Omelette.prototype.init = function() {
       if (this.compgen > -1) {
         return this.generate();
+      }
+    };
+
+    Omelette.prototype.on = function(event, handler) {
+      var isAsync;
+      Omelette.__super__.on.call(this, event, handler);
+      isAsync = handler.toString().match(/^async/);
+      if (isAsync) {
+        return this.asyncs += 1;
       }
     };
 

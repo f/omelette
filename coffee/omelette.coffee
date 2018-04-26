@@ -20,6 +20,7 @@ class Omelette extends EventEmitter
 
   constructor: ->
     super()
+    @asyncs   = 0
     @compgen  = process.argv.indexOf "--compgen"
     @install  = process.argv.indexOf("--completion") > -1
     @installFish  = process.argv.indexOf("--completion-fish") > -1
@@ -32,6 +33,7 @@ class Omelette extends EventEmitter
     @word     = @line?.trim().split(/\s+/).pop()
 
     {@HOME, @SHELL} = process.env
+    @mainProgram = ()->
 
   setProgram: (programs)->
     programs = programs.split '|'
@@ -55,11 +57,22 @@ class Omelette extends EventEmitter
     @emit "complete", @fragments[@fragment-1], data
     @emit @fragments[@fragment-1], data
     @emit "$#{@fragment}", data
-    process.exit()
+    if @asyncs is 0
+      process.exit()
+    else
+      @mainProgram()
 
   reply: (words=[])->
-    console.log words.join? os.EOL
-    process.exit()
+    if words instanceof Promise
+      words.then (asyncWords) ->
+        console.log asyncWords.join? os.EOL
+        process.exit()
+    else
+      console.log words.join? os.EOL
+      process.exit()
+
+  next: (handler) ->
+    @mainProgram = handler if typeof handler is 'function'
 
   tree: (objectTree={})->
     depth = depthOf objectTree
@@ -146,10 +159,9 @@ class Omelette extends EventEmitter
       process.exit()
 
   getActiveShell: ->
-    {SHELL} = process.env
-    if SHELL.match /bash/      then 'bash'
-    else if SHELL.match /zsh/  then 'zsh'
-    else if SHELL.match /fish/ then 'fish'
+    if @SHELL.match /bash/      then 'bash'
+    else if @SHELL.match /zsh/  then 'zsh'
+    else if @SHELL.match /fish/ then 'fish'
 
   getDefaultShellInitFile: ->
 
@@ -193,6 +205,11 @@ class Omelette extends EventEmitter
 
   init: ->
     do @generate if @compgen > -1
+
+  on: (event, handler)->
+    super event, handler
+    isAsync = handler.toString().match(/^async/)
+    @asyncs += 1 if isAsync
 
 module.exports = (template, args...)->
   if template instanceof Array and args.length > 0

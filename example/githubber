@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-(function() {
+(async function() {
   var complete, fs, omelette;
 
   fs = require("fs");
@@ -13,13 +13,21 @@
   //           `.init();
   complete = omelette("githubber|ghb|gh|g <action> <user> <repo>");
 
-  complete.on("action", function({ reply }) {
-    reply(["star","clone", "update", "push"]);
+  complete.on("action", async function({ reply }) {
+    reply(new Promise((resolve) => {
+      setTimeout(function () {
+        resolve(["star","clone", "update", "push"]);
+      }, 1000)
+    }))
   });
 
-  complete.on("user", function({ reply }) {
-    reply(fs.readdirSync("/Users/"));
-  });
+  complete.on('user', async ({ reply }) => {
+    reply(new Promise(function(resolve){
+      fs.readdir('/Users/', function(err, users){
+        resolve( users )
+      })
+    }))
+  })
 
   complete.on("repo", function({ before, reply }) {
     var user = before;
@@ -33,7 +41,8 @@
     complete.setupShellInitFile();
   }
 
-  console.log("Your program's default workflow.");
-  console.log(process.argv);
-
+  complete.next(()=> {
+    console.log("Your program's default workflow.");
+    console.log(process.argv);
+  });
 }).call(this);

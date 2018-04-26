@@ -105,9 +105,9 @@ import * as omelette from 'omelette'
 // Write your CLI template.
 omelette`
   githubber|gh
-  
+
   ${[ 'clone', 'update', 'push' ]}
-  ${() => fs.readdirSync('/Users/')} 
+  ${() => fs.readdirSync('/Users/')}
   ${({ before }) => [
     `http://github.com/${before}/helloworld`,
     `http://github.com/${before}/blabla`,
@@ -139,6 +139,45 @@ omelette`
 
 console.log("Your program's default workflow.")
 console.log(process.argv)
+```
+
+### Async API ⏩
+
+Omelette allows you to use `async` functions. You have to pass `Promise` object to the `reply` function.
+
+```javascript
+complete.on('user', async ({ reply }) => {
+  reply(new Promise((resolve) => {
+    fs.readdir('/Users/', (err, users) => {
+      resolve(users)
+    })
+  }))
+})
+```
+
+#### ⚠️ A note about `async` handlers
+
+If you are using async handlers, you have to use `complete.next` method to continue running your main workflow.
+
+```javascript
+// ...
+
+complete.on('user', async ({ reply }) => {
+  reply(new Promise((resolve) => {
+    fs.readdir('/Users/', (err, users) => {
+      resolve(users)
+    })
+  }))
+})
+
+complete.init()
+// Instead of running directly, you need to set an handler to run your main workflow.
+complete.next(()=> {
+  console.log("Your program's default workflow.")
+  console.log(process.argv)
+})
+
+// ...
 ```
 
 ### Tree API 🌲

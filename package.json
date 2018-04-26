@@ -8,7 +8,7 @@
     "zsh completion"
   ],
   "author": "Fatih Kadir Akın <fka@fatihak.in>",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "licenses": [
     {
       "type": "MIT"

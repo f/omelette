@@ -205,7 +205,7 @@ class Omelette extends EventEmitter
     if @compgen > -1 then @generate() else @mainProgram()
 
   onAsync: (event, handler)->
-    super event, handler
+    super.on(event, handler)
     @asyncs += 1
 
 module.exports = (template, args...)->

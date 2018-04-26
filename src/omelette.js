@@ -240,7 +240,7 @@
       }
 
       onAsync(event, handler) {
-        super.onAsync(event, handler);
+        super.on(event, handler);
         return this.asyncs += 1;
       }
 

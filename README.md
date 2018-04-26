@@ -186,7 +186,7 @@ Using `util.promisify` will make your `async` handlers easier.
 ```javascript
 import promisify from 'util';
 
-complete.on('user', async ({ reply }) => {
+complete.onAsync('user', async ({ reply }) => {
   reply(await promisify(fs.readdir)('/Users'))
 })
 ```

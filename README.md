@@ -143,7 +143,7 @@ console.log(process.argv)
 
 ### Async API ⏩
 
-Omelette allows you to use `async` functions. You have to use onAsync and to pass `Promise` object to the `reply` function.
+Omelette allows you to use `async` functions. You have to use `onAsync` and to pass `Promise` object to the `reply` function.
 
 ```javascript
 complete.onAsync('user', async ({ reply }) => {

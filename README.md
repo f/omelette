@@ -152,6 +152,26 @@ omelette('hello').tree({
 }).init();
 ```
 
+### Async Resolution
+
+You can return Promise from functions:
+
+```javascript
+completion.on('user', ({ reply }) => {
+  return new Promise(function(resolve){
+    fs.readdir('/Users/', function(users){
+      resolve( reply(users) )
+    })
+  })
+})
+
+completion.on('dbTable', async({ reply, line }) => {
+  const tables = await getDbTableList()
+  return reply( tables )
+})
+```
+
+
 ## Install
 
 ### Automated Install

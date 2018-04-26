@@ -59,17 +59,15 @@ class Omelette extends EventEmitter
     @emit "$#{@fragment}", data
     if @asyncs is 0
       process.exit()
-    else
-      @mainProgram()
 
   reply: (words=[])->
-    if words instanceof Promise
-      words.then (asyncWords) ->
-        console.log asyncWords.join? os.EOL
-        process.exit()
-    else
-      console.log words.join? os.EOL
+    writer = (options)->
+      console.log options.join? os.EOL
       process.exit()
+    if words instanceof Promise
+      words.then(writer)
+    else
+      writer(words)
 
   next: (handler) ->
     @mainProgram = handler if typeof handler is 'function'
@@ -204,7 +202,7 @@ class Omelette extends EventEmitter
     process.exit();
 
   init: ->
-    do @generate if @compgen > -1
+    if @compgen > -1 then @generate() else @mainProgram()
 
   on: (event, handler)->
     super event, handler

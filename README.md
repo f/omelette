@@ -170,13 +170,14 @@ complete.on('user', async ({ reply }) => {
   }))
 })
 
-complete.init()
 // Instead of running directly, you need to set an handler to run your main workflow.
 complete.next(()=> {
   console.log("Your program's default workflow.")
   console.log(process.argv)
 })
 
+// .init must be called after defining .next
+complete.init()
 // ...
 ```
 

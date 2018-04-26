@@ -82,23 +82,22 @@
       this.emit("$" + this.fragment, data);
       if (this.asyncs === 0) {
         return process.exit();
-      } else {
-        return this.mainProgram();
       }
     };
 
     Omelette.prototype.reply = function(words) {
+      var writer;
       if (words == null) {
         words = [];
       }
-      if (words instanceof Promise) {
-        return words.then(function(asyncWords) {
-          console.log(typeof asyncWords.join === "function" ? asyncWords.join(os.EOL) : void 0);
-          return process.exit();
-        });
-      } else {
-        console.log(typeof words.join === "function" ? words.join(os.EOL) : void 0);
+      writer = function(options) {
+        console.log(typeof options.join === "function" ? options.join(os.EOL) : void 0);
         return process.exit();
+      };
+      if (words instanceof Promise) {
+        return words.then(writer);
+      } else {
+        return writer(words);
       }
     };
 
@@ -252,6 +251,8 @@
     Omelette.prototype.init = function() {
       if (this.compgen > -1) {
         return this.generate();
+      } else {
+        return this.mainProgram();
       }
     };
 

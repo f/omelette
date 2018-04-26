@@ -11,14 +11,22 @@
   //               `${before}/helloworld`,
   //               `${before}/blabla`]}
   //           `.init();
-  complete = omelette("githubber|ghb|gh|g <action> <user> <repo>");
+  complete = omelette("githubber-async|ghba|gha|ga <action> <user> <repo>");
 
-  complete.on("action", function({ reply }) {
-    reply(["star","clone", "update", "push"])
+  complete.on("action", async function({ reply }) {
+    reply(new Promise((resolve) => {
+      setTimeout(function () {
+        resolve(["star","clone", "update", "push"]);
+      }, 1000)
+    }))
   });
 
-  complete.on('user', function ({ reply }) {
-    reply(fs.readdirSync('/Users/'))
+  complete.on('user', async ({ reply }) => {
+    reply(new Promise(function(resolve){
+      fs.readdir('/Users/', function(err, users){
+        resolve( users )
+      })
+    }))
   })
 
   complete.on("repo", function({ before, reply }) {
@@ -26,13 +34,14 @@
     reply(["http://github.com/" + user + "/helloworld", "http://github.com/" + user + "/blabla"]);
   });
 
-  complete.init();
-
   // If you want to setup, you can use `omeletteInstance.setupShellInitFile()` function.
   if (~process.argv.indexOf('--setup')) {
     complete.setupShellInitFile();
   }
 
-  console.log("Your program's default workflow.");
-  console.log(process.argv);
+  complete.next(()=> {
+    console.log("Your program's default workflow.");
+    console.log(process.argv);
+  });
+  complete.init();
 }).call(this);

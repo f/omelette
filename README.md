@@ -211,7 +211,10 @@ Installing, and making your users install the autocompletion feature is very sim
 You can use simply use `setupShellInitFile` function.
 
 ```javascript
-// If you want to write file,
+// Pick shell init file automatically
+complete.setupShellInitFile()
+
+// Or use a manually defined init file
 complete.setupShellInitFile('~/.my_bash_profile')
 ```
 

@@ -79,6 +79,11 @@ if (~process.argv.indexOf('--setup')) {
   completion.setupShellInitFile()
 }
 
+// Similarly, if you want to tear down autocompletion, use `omeletteInstance.cleanupShellInitFile()`
+if (~process.argv.indexOf('--cleanup')) {
+  completion.cleanupShellInitFile()
+}
+
 // Rest is yours
 console.log("Your program's default workflow.")
 console.log(process.argv)
@@ -226,6 +231,14 @@ If you use Zsh, it appends a loader code to `~/.zshrc` file.
 If you use Fish, it appends a loader code to `~/.config/fish/config.fish` file.
 
 *TL;DR: It does the Manual Install part, basically.*
+
+### Automated Uninstall
+
+Similarly to installation, you can use `cleanupShellInitFile` to undo changes done by `setupShellInitFile`.
+
+```javascript
+complete.cleanupShellInitFile()
+```
 
 ### Manual Install
 

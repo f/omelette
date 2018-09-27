@@ -191,6 +191,8 @@
           return 'zsh';
         } else if (this.SHELL.match(/fish/)) {
           return 'fish';
+        } else {
+          throw new Error(`Unsupported shell: ${this.SHELL}`);
         }
       }
 
@@ -232,9 +234,9 @@
 
       setupShellInitFile(initFile = this.getDefaultShellInitFile()) {
         var completionPath, programFolder;
-        if (!this.shell) {
-          // Quit if unsupported shell
-          process.exit();
+        // @shell might be undefined if an `initFile` was passed
+        if (this.shell == null) {
+          this.shell = this.getActiveShell();
         }
         // Special treatment for bash to handle extra folder
         if (this.shell === 'bash') {
@@ -252,9 +254,9 @@
 
       cleanupShellInitFile(initFile = this.getDefaultShellInitFile()) {
         var cleanedInitFile, completionPath, programFolder;
-        if (!this.shell) {
-          // Quit if unsupported shell
-          process.exit();
+        // @shell might be undefined if an `initFile` was passed
+        if (this.shell == null) {
+          this.shell = this.getActiveShell();
         }
         // For every shell, rewrite the init file
         if (fs.existsSync(initFile)) {

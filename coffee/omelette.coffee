@@ -164,6 +164,7 @@ class Omelette extends EventEmitter
     if @SHELL.match /bash/      then 'bash'
     else if @SHELL.match /zsh/  then 'zsh'
     else if @SHELL.match /fish/ then 'fish'
+    else throw new Error "Unsupported shell: #{@SHELL}"
 
   getDefaultShellInitFile: ->
 
@@ -195,8 +196,8 @@ class Omelette extends EventEmitter
       """
 
   setupShellInitFile: (initFile=@getDefaultShellInitFile())->
-    # Quit if unsupported shell
-    process.exit() unless @shell
+    # @shell might be undefined if an `initFile` was passed
+    @shell ?= @getActiveShell()
 
     # Special treatment for bash to handle extra folder
     if @shell is 'bash'
@@ -212,8 +213,8 @@ class Omelette extends EventEmitter
     process.exit()
 
   cleanupShellInitFile: (initFile=@getDefaultShellInitFile())->
-    # Quit if unsupported shell
-    process.exit() unless @shell
+    # @shell might be undefined if an `initFile` was passed
+    @shell ?= @getActiveShell()
 
     # For every shell, rewrite the init file
     if fs.existsSync initFile

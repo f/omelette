@@ -216,11 +216,16 @@ Installing, and making your users install the autocompletion feature is very sim
 You can use simply use `setupShellInitFile` function.
 
 ```javascript
-// Pick shell init file automatically
-complete.setupShellInitFile()
+try {
+  // Pick shell init file automatically
+  complete.setupShellInitFile()
 
-// Or use a manually defined init file
-complete.setupShellInitFile('~/.my_bash_profile')
+  // Or use a manually defined init file
+  complete.setupShellInitFile('~/.my_bash_profile')
+
+} catch (err) {
+  // setupShellInitFile() throws if the used shell is not supported
+}
 ```
 
 If you use Bash, it will create a file at `~/.<program-name>/completion.sh` and
@@ -239,6 +244,8 @@ Similarly to installation, you can use `cleanupShellInitFile` to undo changes do
 ```javascript
 complete.cleanupShellInitFile()
 ```
+
+As with `setupShellInitFile()`, wrap this in a `try/catch` block to handle unsupported shells.
 
 ### Manual Install
 

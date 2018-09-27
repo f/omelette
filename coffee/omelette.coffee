@@ -161,6 +161,8 @@ class Omelette extends EventEmitter
       process.exit()
 
   getActiveShell: ->
+    throw new Error 'Shell could not be detected' unless @SHELL
+
     if @SHELL.match /bash/      then 'bash'
     else if @SHELL.match /zsh/  then 'zsh'
     else if @SHELL.match /fish/ then 'fish'

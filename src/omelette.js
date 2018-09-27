@@ -185,6 +185,9 @@
       }
 
       getActiveShell() {
+        if (!this.SHELL) {
+          throw new Error('Shell could not be detected');
+        }
         if (this.SHELL.match(/bash/)) {
           return 'bash';
         } else if (this.SHELL.match(/zsh/)) {

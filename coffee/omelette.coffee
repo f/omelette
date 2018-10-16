@@ -14,6 +14,10 @@ depthOf = (object) ->
       level = Math.max(depth, level)
   level
 
+# Removes all occurrences of `needle` from `haystack`
+removeSubstring = (haystack, needle) ->
+  haystack.replace (new RegExp (needle.replace /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"), 'g'), ''
+
 class Omelette extends EventEmitter
 
   {log} = console
@@ -157,9 +161,12 @@ class Omelette extends EventEmitter
       process.exit()
 
   getActiveShell: ->
+    throw new Error 'Shell could not be detected' unless @SHELL
+
     if @SHELL.match /bash/      then 'bash'
     else if @SHELL.match /zsh/  then 'zsh'
     else if @SHELL.match /fish/ then 'fish'
+    else throw new Error "Unsupported shell: #{@SHELL}"
 
   getDefaultShellInitFile: ->
 
@@ -173,9 +180,15 @@ class Omelette extends EventEmitter
       when 'zsh'   then fileAtHome '.zshrc'
       when 'fish'  then fileAtHome '.config/fish/config.fish'
 
-  setupShellInitFile: (initFile=@getDefaultShellInitFile())->
-
-    template = (command)=>
+  getCompletionBlock: ()->
+    command = switch @shell
+      when 'bash'
+        completionPath = path.join @HOME, ".#{@program}", 'completion.sh'
+        "source #{completionPath}"
+      when 'zsh'   then ". <(#{@program} --completion)"
+      when 'fish'  then "#{@program} --completion-fish | source"
+    
+    if command
       """
 
       # begin #{@program} completion
@@ -184,22 +197,41 @@ class Omelette extends EventEmitter
 
       """
 
-    switch @shell
-      when 'bash'
-        programFolder = path.join @HOME, ".#{@program}"
-        completionPath = path.join programFolder, 'completion.sh'
+  setupShellInitFile: (initFile=@getDefaultShellInitFile())->
+    # @shell might be undefined if an `initFile` was passed
+    @shell ?= @getActiveShell()
 
-        fs.mkdirSync programFolder unless fs.existsSync programFolder
-        fs.writeFileSync completionPath, @generateCompletionCode()
-        fs.appendFileSync initFile, template "source #{completionPath}"
+    # Special treatment for bash to handle extra folder
+    if @shell is 'bash'
+      programFolder = path.join @HOME, ".#{@program}"
+      completionPath = path.join programFolder, 'completion.sh'
 
-      when 'zsh'
-        fs.appendFileSync initFile, template ". <(#{@program} --completion)"
+      fs.mkdirSync programFolder unless fs.existsSync programFolder
+      fs.writeFileSync completionPath, @generateCompletionCode()
 
-      when 'fish'
-        fs.appendFileSync initFile, template "#{@program} --completion-fish | source"
+    # For every shell, write completion block to the init file
+    fs.appendFileSync initFile, @getCompletionBlock()
 
-    process.exit();
+    process.exit()
+
+  cleanupShellInitFile: (initFile=@getDefaultShellInitFile())->
+    # @shell might be undefined if an `initFile` was passed
+    @shell ?= @getActiveShell()
+
+    # For every shell, rewrite the init file
+    if fs.existsSync initFile
+      cleanedInitFile = removeSubstring (fs.readFileSync initFile, 'utf8'), @getCompletionBlock()
+      fs.writeFileSync initFile, cleanedInitFile
+
+    # Special treatment for bash to handle extra folder
+    if @shell is 'bash'
+      programFolder = path.join @HOME, ".#{@program}"
+      completionPath = path.join programFolder, 'completion.sh'
+
+      fs.unlinkSync completionPath if fs.existsSync completionPath
+      fs.rmdirSync programFolder if (fs.existsSync programFolder) and (fs.readdirSync programFolder).length is 0
+
+    process.exit()
 
   init: ->
     if @compgen > -1 then @generate() else @mainProgram()

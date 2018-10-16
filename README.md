@@ -79,6 +79,11 @@ if (~process.argv.indexOf('--setup')) {
   completion.setupShellInitFile()
 }
 
+// Similarly, if you want to tear down autocompletion, use `omeletteInstance.cleanupShellInitFile()`
+if (~process.argv.indexOf('--cleanup')) {
+  completion.cleanupShellInitFile()
+}
+
 // Rest is yours
 console.log("Your program's default workflow.")
 console.log(process.argv)
@@ -211,8 +216,16 @@ Installing, and making your users install the autocompletion feature is very sim
 You can use simply use `setupShellInitFile` function.
 
 ```javascript
-// If you want to write file,
-complete.setupShellInitFile('~/.my_bash_profile')
+try {
+  // Pick shell init file automatically
+  complete.setupShellInitFile()
+
+  // Or use a manually defined init file
+  complete.setupShellInitFile('~/.my_bash_profile')
+
+} catch (err) {
+  // setupShellInitFile() throws if the used shell is not supported
+}
 ```
 
 If you use Bash, it will create a file at `~/.<program-name>/completion.sh` and
@@ -223,6 +236,16 @@ If you use Zsh, it appends a loader code to `~/.zshrc` file.
 If you use Fish, it appends a loader code to `~/.config/fish/config.fish` file.
 
 *TL;DR: It does the Manual Install part, basically.*
+
+### Automated Uninstall
+
+Similarly to installation, you can use `cleanupShellInitFile` to undo changes done by `setupShellInitFile`.
+
+```javascript
+complete.cleanupShellInitFile()
+```
+
+As with `setupShellInitFile()`, wrap this in a `try/catch` block to handle unsupported shells.
 
 ### Manual Install
 

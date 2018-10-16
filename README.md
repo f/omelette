@@ -422,6 +422,8 @@ http://github.com/fka/blabla
 ## Who uses?
 
 **Windows Azure** uses Omelette to support autocompletion in [azure-cli](https://github.com/WindowsAzure/azure-sdk-tools-xplat).
+**Office 365 CLI** uses Omelette to support autocompletion in [office365-cli](https://github.com/pnp/office365-cli).
+**Visual Studio App Center CLI** uses Omelette to support autocompletion in [appcenter-cli](https://github.com/Microsoft/appcenter-cli).
 
 ## Contribute
 

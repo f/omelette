@@ -1,6 +1,6 @@
 <img src="https://rawgit.com/f/omelette/master/resources/logo.svg?v1" height="80">
 
-> Omelette is a simple, template based autocompletion tool for Node projects with super easy API.
+> Omelette is a simple template based autocompletion tool for Node projects with super easy API.
 
 [![npm version](https://badge.fury.io/js/omelette.svg)](https://badge.fury.io/js/omelette)
 [![Build Status](https://travis-ci.org/f/omelette.svg?branch=master)](https://travis-ci.org/f/omelette)
@@ -17,13 +17,13 @@ You just have to decide your program name and CLI fragments.
 omelette`github ${['pull', 'push']} ${['origin', 'upstream']} ${['master', 'develop']}`.init()
 ```
 
-And you are almost done! The output will be like this:
+...and you are almost done! The output will look like this:
 
 <img src="https://raw.github.com/f/omelette/master/resources/omelette-new.gif?v1" width="640">
 
 ## Quick Start
 
-Implementing omelette is very easy.
+Implementing omelette is very easy:
 
 ```javascript
 import * as omelette from 'omelette';
@@ -47,7 +47,7 @@ It's based on a simple CLI template.
 
 Let's think we have a executable file with the name **githubber**, *in a global path*.
 
-And in our program, code will be:
+In our program, the code will be:
 
 ```javascript
 import * as omelette from 'omelette';
@@ -211,7 +211,7 @@ omelette('hello').tree({
 
 ### Automated Install
 
-Installing, and making your users install the autocompletion feature is very simple.
+Installing and making your users install the autocompletion feature is very simple.
 
 You can use simply use `setupShellInitFile` function.
 
@@ -237,7 +237,7 @@ If you use Fish, it appends a loader code to `~/.config/fish/config.fish` file.
 
 *TL;DR: It does the Manual Install part, basically.*
 
-### Automated Uninstall
+### Automated Uninstallation
 
 Similarly to installation, you can use `cleanupShellInitFile` to undo changes done by `setupShellInitFile`.
 
@@ -247,7 +247,7 @@ complete.cleanupShellInitFile()
 
 As with `setupShellInitFile()`, wrap this in a `try/catch` block to handle unsupported shells.
 
-### Manual Install
+### Manual Installation
 
 *(You should add these instructions to your project's README)*
 
@@ -276,8 +276,7 @@ Now you have an autocompletion system for your CLI tool.
 
 ## Additions
 
-There are some useful additions for omelette.
-
+There are some useful additions to omelette.
 
 ### Parameters
 
@@ -292,7 +291,7 @@ Callbacks have two parameters:
 
 ### Global Event
 
-You also can be able to listen all fragments by "complete" event.
+You can also listen to all fragments by "complete" event.
 
 ```javascript
 complete.on('complete', (fragment, { reply }) => reply(["hello", "world"]));
@@ -300,7 +299,7 @@ complete.on('complete', (fragment, { reply }) => reply(["hello", "world"]));
 
 ### Numbered Arguments
 
-You also can listen events by its order.
+You can also listen to events in order.
 
 ```javascript
 complete.on('$1', ({ reply }) => reply(["hello", "world"]))
@@ -308,7 +307,7 @@ complete.on('$1', ({ reply }) => reply(["hello", "world"]))
 
 ### Autocompletion Tree
 
-You can create **completion tree** to more complex autocompletions.
+You can create a **completion tree** to more complex autocompletions.
 
 ```js
 omelette('hello').tree({
@@ -337,7 +336,7 @@ omelette('hello').tree({
 }).init()
 ```
 
-Now you will be able to use your completion as tree.
+Now, you will be able to use your completion as tree.
 
 <img src="https://raw.github.com/f/omelette/master/resources/omelette-tree-new.gif?v1" width="640">
 
@@ -353,9 +352,9 @@ omelette('hello').tree(require('./autocompletion-tree.js')).init();
 
 ### Short Names
 
-You can set short name of an executable:
+You can set a short name for an executable:
 
-In this example, `githubber` is long and `gh` is shorter examples.
+In this example, `githubber` is long and `gh` is short.
 
 ```javascript
 omelette('githubber|gh <module> <command> <suboption>');
@@ -363,7 +362,7 @@ omelette('githubber|gh <module> <command> <suboption>');
 
 ## Test
 
-Now, you can try it in your shell.
+Now you can try it in your shell.
 
 ```bash
 git clone https://github.com/f/omelette
@@ -385,7 +384,7 @@ gh<tab> # short alias
 When you run `omlette-debug-<programname>`, it will create aliases for your
 application. (`githubber` and `gh` in this example).
 
-Long name,
+A long name:
 
 ```bash
 $ githubber<tab>
@@ -419,11 +418,11 @@ http://github.com/fka/helloworld
 http://github.com/fka/blabla
 ```
 
-## Who uses?
+## Users?
 
-**Windows Azure** uses Omelette to support autocompletion in [azure-cli](https://github.com/WindowsAzure/azure-sdk-tools-xplat).
-**Office 365 CLI** uses Omelette to support autocompletion in [office365-cli](https://github.com/pnp/office365-cli).
-**Visual Studio App Center CLI** uses Omelette to support autocompletion in [appcenter-cli](https://github.com/Microsoft/appcenter-cli).
+- **Windows Azure** uses Omelette to support autocompletion in [azure-cli](https://github.com/WindowsAzure/azure-sdk-tools-xplat).
+- **Office 365 CLI** uses Omelette to support autocompletion in [office365-cli](https://github.com/pnp/office365-cli).
+- **Visual Studio App Center CLI** uses Omelette to support autocompletion in [appcenter-cli](https://github.com/Microsoft/appcenter-cli).
 
 ## Contribute
 

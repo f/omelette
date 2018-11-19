@@ -23,6 +23,8 @@ omelette`github ${['pull', 'push']} ${['origin', 'upstream']} ${['master', 'deve
 
 ## Quick Start
 
+**For a step by step guide please follow [this link](https://github.com/f/omelette/issues/33#issuecomment-439864555)**
+
 Implementing omelette is very easy:
 
 ```javascript

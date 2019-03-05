@@ -7,8 +7,13 @@
     "bash completion",
     "zsh completion"
   ],
+  "files": [
+    "src",
+    "LICENSE",
+    "README.md"
+  ],
   "author": "Fatih Kadir Akın <fka@fatihak.in>",
-  "version": "0.4.12",
+  "version": "0.4.13",
   "licenses": [
     {
       "type": "MIT"

@@ -1,0 +1,5 @@
+resources/
+example/
+coffee/
+build.sh
+.travis.yml

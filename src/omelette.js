@@ -115,7 +115,7 @@
             if (!(/\s+/.test(line.slice(-1)))) {
               lastIndex = -1;
             }
-            accessor = new Function('_', `return _['${line.split(/\s+/).slice(1, lastIndex).filter(Boolean).join("']['")}']`);
+            accessor = t => line.split(/\s+/).slice(1, lastIndex).filter(Boolean).reduce((a, v) => a[v], t);
             replies = fragment === 1 ? Object.keys(objectTree) : accessor(objectTree);
             return reply((function(replies) {
               if (replies instanceof Function) {

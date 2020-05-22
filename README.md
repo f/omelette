@@ -428,7 +428,7 @@ http://github.com/fka/blabla
 
 ## Using with Deno
 
-Omelette now supports and is useful with **Deno**. You can make your Deno based CLI tools autocomplete powered using Omelette. It's fully featured but `setupShellInitFile` and `cleanupShellInitFile` methods does not exist for now.
+Omelette now supports and is useful with **Deno**. You can make your Deno based CLI tools autocomplete powered using Omelette. It's fully featured but `setupShellInitFile` and `cleanupShellInitFile` methods does not exist for now (to prevent requirement of `allow-env`, `allow-read` and `allow-write` permissions).
 
 ### Instructions to use Omelette in your Deno projects:
 
@@ -451,7 +451,7 @@ complete.init();
 Install your program using `deno install`:
 
 ```bash
-deno install --allow-env hello.js
+deno install hello.js
 hello --completion | source # bash and zsh installation
 hello --completion-fish | source # fish shell installation
 ```

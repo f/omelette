@@ -1,21 +1,6 @@
-import { createRequire } from "https://deno.land/std/node/module.ts";
-const require = createRequire(import.meta.url);
-
-const { EventEmitter } = require("events");
-const path = require("path");
-const fs = require("fs");
-const os = require("os");
+import { EventEmitter } from "https://deno.land/std/node/events.ts";
+import * as path from "https://deno.land/std/path/mod.ts";
 const hasProp = {}.hasOwnProperty;
-
-declare var process: {
-  exit(): any;
-  cwd(): any;
-  argv: string[];
-  env: {
-    HOME: string;
-    SHELL: string;
-  };
-};
 
 function depthOf(object: any) {
   let key: any, depth: number, level: number;
@@ -49,29 +34,35 @@ class Omelette extends EventEmitter {
   isDebug: boolean;
   word: string | undefined;
   mainProgram: Function;
+  programs: string[] = [];
   program: string = "";
   shell: string = "";
   HOME: string = "";
   SHELL: string = "";
+
+  fragments: string[] = [];
+  fragment: number;
+  line: string;
 
   constructor() {
     super();
     // let isFish: boolean, isZsh: boolean, ref: string;
     let isZsh: boolean, ref: string;
     this.asyncs = 0;
-    this.compgen = process.argv.indexOf("--compgen");
-    this.install = process.argv.indexOf("--completion") > -1;
-    this.installFish = process.argv.indexOf("--completion-fish") > -1;
-    isZsh = process.argv.indexOf("--compzsh") > -1;
-    // isFish = process.argv.indexOf("--compfish") > -1;
-    this.isDebug = process.argv.indexOf("--debug") > -1;
-    this.fragment = parseInt(process.argv[this.compgen + 1]) -
+    this.compgen = Deno.args.indexOf("--compgen");
+    this.install = Deno.args.indexOf("--completion") > -1;
+    this.installFish = Deno.args.indexOf("--completion-fish") > -1;
+    isZsh = Deno.args.indexOf("--compzsh") > -1;
+    // isFish = Deno.args.indexOf("--compfish") > -1;
+    this.isDebug = Deno.args.indexOf("--debug") > -1;
+    this.fragment = parseInt(Deno.args[this.compgen + 1]) -
       (isZsh ? 1 : 0);
-    this.line = process.argv.slice(this.compgen + 3).join(" ");
+    this.line = Deno.args.slice(this.compgen + 3).join(" ");
     this.word = (ref = this.line) != null
       ? ref.trim().split(/\s+/).pop()
       : void 0;
-    ({ HOME: this.HOME, SHELL: this.SHELL } = process.env);
+    this.HOME = Deno.env.get("HOME") || '~';
+    this.SHELL = Deno.env.get("SHELL") || '/bin/bash';
     this.mainProgram = function () {};
   }
 
@@ -105,16 +96,16 @@ class Omelette extends EventEmitter {
     this.emit(this.fragments[this.fragment - 1], data);
     this.emit(`$${this.fragment}`, data);
     if (this.asyncs === 0) {
-      return process.exit();
+      return Deno.exit();
     }
   }
 
   reply(words: string[] = []) {
     let writer = function (options: any) {
       console.log(
-        typeof options.join === "function" ? options.join(os.EOL) : void 0,
+        typeof options.join === "function" ? options.join("\n") : void 0,
       );
-      return process.exit();
+      return Deno.exit();
     };
     if (words instanceof Promise) {
       return words.then(writer);
@@ -185,7 +176,7 @@ class Omelette extends EventEmitter {
       // Adding aliases for testing purposes
       completions.push(this.generateTestAliases());
     }
-    return completions.join(os.EOL);
+    return completions.join("\n");
   }
 
   generateCompletionCodeFish() {
@@ -198,29 +189,29 @@ class Omelette extends EventEmitter {
       // Adding aliases for testing purposes
       completions.push(this.generateTestAliases());
     }
-    return completions.join(os.EOL);
+    return completions.join("\n");
   }
 
   generateTestAliases() {
     let debugAliases: string, debugUnaliases: string, fullPath: string;
-    fullPath = path.join(process.cwd(), this.program);
+    fullPath = path.join(Deno.cwd(), this.program);
     debugAliases = this.programs.map(function (program: string) {
       return `  alias ${program}=${fullPath}`;
-    }).join(os.EOL);
+    }).join("\n");
     debugUnaliases = this.programs.map(function (program: string) {
       return `  unalias ${program}`;
-    }).join(os.EOL);
+    }).join("\n");
     return `### test method ###\nomelette-debug-${this.program}() {\n${debugAliases}\n}\nomelette-nodebug-${this.program}() {\n${debugUnaliases}\n}\n### tests ###`;
   }
 
   checkInstall() {
     if (this.install) {
       console.log(this.generateCompletionCode());
-      process.exit();
+      Deno.exit();
     }
     if (this.installFish) {
       console.log(this.generateCompletionCodeFish());
-      return process.exit();
+      return Deno.exit();
     }
   }
 
@@ -279,57 +270,6 @@ class Omelette extends EventEmitter {
       return `\n# begin ${this.program} completion\n${command}\n# end ${this.program} completion\n`;
     }
     return "";
-  }
-
-  setupShellInitFile(initFile = this.getDefaultShellInitFile()) {
-    let completionPath: string, programFolder: string;
-    // @shell might be undefined if an `initFile` was passed
-    if (this.shell == null) {
-      this.shell = this.getActiveShell();
-    }
-    // Special treatment for bash to handle extra folder
-    if (this.shell === "bash") {
-      programFolder = path.join(this.HOME, `.${this.program}`);
-      completionPath = path.join(programFolder, "completion.sh");
-      if (!fs.existsSync(programFolder)) {
-        fs.mkdirSync(programFolder);
-      }
-      fs.writeFileSync(completionPath, this.generateCompletionCode());
-    }
-    // For every shell, write completion block to the init file
-    fs.appendFileSync(initFile, this.getCompletionBlock());
-    return process.exit();
-  }
-
-  cleanupShellInitFile(initFile = this.getDefaultShellInitFile()) {
-    let cleanedInitFile: string, completionPath: string, programFolder: string;
-    // @shell might be undefined if an `initFile` was passed
-    if (this.shell == null) {
-      this.shell = this.getActiveShell();
-    }
-    // For every shell, rewrite the init file
-    if (fs.existsSync(initFile)) {
-      cleanedInitFile = removeSubstring(
-        fs.readFileSync(initFile, "utf8"),
-        this.getCompletionBlock(),
-      );
-      fs.writeFileSync(initFile, cleanedInitFile);
-    }
-    // Special treatment for bash to handle extra folder
-    if (this.shell === "bash") {
-      programFolder = path.join(this.HOME, `.${this.program}`);
-      completionPath = path.join(programFolder, "completion.sh");
-      if (fs.existsSync(completionPath)) {
-        fs.unlinkSync(completionPath);
-      }
-      if (
-        (fs.existsSync(programFolder)) &&
-        (fs.readdirSync(programFolder)).length === 0
-      ) {
-        fs.rmdirSync(programFolder);
-      }
-    }
-    return process.exit();
   }
 
   init() {

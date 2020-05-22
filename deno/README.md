@@ -28,7 +28,7 @@ Install your program using `deno install`:
 
 ```bash
 deno install hello.js
-hello --completion-fish | source
+hello --completion-fish | source # i'm using fish
 ```
 
 ### Instructions for your README files:

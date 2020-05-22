@@ -38,14 +38,14 @@ hello --completion-fish | source # i'm using fish
 In **zsh**, you should write these:
 
 ```bash
-echo '. <(hello --completion)' >> .zshrc
+echo '. <(hello --completion)' >> ~/.zshrc
 ```
 
 In **bash**:
 
 ```bash
 hello --completion >> ~/.config/hello.completion.sh
-echo 'source ~/.config/hello.completion.sh' >> .bash_profile
+echo 'source ~/.config/hello.completion.sh' >> ~/.bash_profile
 ```
 
 In **fish**:

@@ -44,7 +44,7 @@ echo '. <(./hello --completion)' >> .zshrc
 In **bash**:
 
 ```bash
-./hello --completion >> ~/githubber.completion.sh
+./hello --completion >> ~/hello.completion.sh
 echo 'source ~/hello.completion.sh' >> .bash_profile
 ```
 

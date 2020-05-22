@@ -11,7 +11,7 @@ Omelette now supports and is useful with **Deno**. You can make your Deno based 
 Assume we have a `hello.js`:
 
 ```typescript
-import omelette from "https://raw.githubusercontent.com/f/omelette/master/deno/omelette.ts";
+import omelette from "https://deno.land/x/omelette/omelette.ts";
 
 const complete = omelette("hello <action>");
 

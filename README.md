@@ -1,6 +1,6 @@
 <img src="https://rawgit.com/f/omelette/master/resources/logo.svg?v1" height="80">
 
-> Omelette is a simple template based autocompletion tool for Node projects with super easy API.
+> Omelette is a simple template based autocompletion tool for **Node** and **Deno** projects with super easy API.
 
 [![npm version](https://badge.fury.io/js/omelette.svg)](https://badge.fury.io/js/omelette)
 [![Build Status](https://travis-ci.org/f/omelette.svg?branch=master)](https://travis-ci.org/f/omelette)
@@ -219,6 +219,8 @@ omelette('hello').tree({
 
 ### Automated Install
 
+> ⚠️ Not available for Deno runtime. You can make your users to put `yourprogram --completion | source` or `yourprogram --completion-fish | source` args explicitly to their shell config file.
+
 Installing and making your users install the autocompletion feature is very simple.
 
 You can use simply use `setupShellInitFile` function.
@@ -246,6 +248,8 @@ If you use Fish, it appends a loader code to `~/.config/fish/config.fish` file.
 *TL;DR: It does the Manual Install part, basically.*
 
 ### Automated Uninstallation
+
+> ⚠️ Not available for Deno runtime. Your users need to remove the autocompletion setup script from their shell config files.
 
 Similarly to installation, you can use `cleanupShellInitFile` to undo changes done by `setupShellInitFile`.
 

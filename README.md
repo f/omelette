@@ -11,6 +11,12 @@ yarn add omelette
 npm install omelette
 ```
 
+You also can use Omelette with **Deno**:
+
+```typescript
+import omelette from "https://raw.githubusercontent.com/f/omelette/master/deno/omelette.ts";
+```
+
 You just have to decide your program name and CLI fragments.
 
 ```javascript

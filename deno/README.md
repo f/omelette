@@ -1,3 +1,5 @@
+<img src="https://rawgit.com/f/omelette/master/resources/logo.svg?v1" height="80">
+
 # Omelette.ts for Deno
 
 To see a full documentation, please visit [https://github.com/f/omelette](https://github.com/f/omelette)
@@ -5,6 +7,8 @@ To see a full documentation, please visit [https://github.com/f/omelette](https:
 ## Using Omelette with Deno
 
 Omelette now supports and is useful with **Deno**. You can make your Deno based CLI tools autocomplete powered using Omelette. It's fully featured but `setupShellInitFile` and `cleanupShellInitFile` methods does not exist for now (to prevent requirement of `allow-env`, `allow-read` and `allow-write` permissions).
+
+<img src="https://raw.github.com/f/omelette/master/resources/omelette-new.gif?v1" width="640">
 
 ### Instructions to use Omelette in your Deno projects:
 

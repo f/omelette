@@ -261,25 +261,29 @@ As with `setupShellInitFile()`, wrap this in a `try/catch` block to handle unsup
 
 ### Manual Installation
 
-*(You should add these instructions to your project's README)*
+#### Instructions for your README files:
 
-In **zsh**, you can write these:
+*(You should add these instructions to your project's README, don't forget to replace `myprogram` string with your own executable name)*
+
+In **zsh**, you should write these:
 
 ```bash
-echo '. <(./githubber --completion)' >> .zshrc
+echo '. <(myprogram --completion)' >> ~/.zshrc
 ```
 
-In **bash**, you should write:
+In **bash**:
+
+On macOS, you may need to install `bash-completion` using `brew install bash-completion`.
 
 ```bash
-./githubber --completion >> ~/githubber.completion.sh
-echo 'source ~/githubber.completion.sh' >> .bash_profile
+myprogram --completion >> ~/.config/hello.completion.sh
+echo 'source ~/.config/hello.completion.sh' >> ~/.bash_profile
 ```
 
-In **fish**, you can write:
+In **fish**:
 
 ```bash
-echo 'githubber --completion-fish | source' >> ~/.config/fish/config.fish
+echo 'myprogram --completion-fish | source' >> ~/.config/fish/config.fish
 ```
 
 That's all!

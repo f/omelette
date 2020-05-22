@@ -15,17 +15,6 @@ function depthOf(object: any) {
   return level;
 }
 
-// Removes all occurrences of `needle` from `haystack`
-function removeSubstring(haystack: string, needle: string) {
-  return haystack.replace(
-    new RegExp(
-      needle.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"),
-      "g",
-    ),
-    "",
-  );
-}
-
 class Omelette extends EventEmitter {
   asyncs: number;
   compgen: number;
@@ -37,8 +26,6 @@ class Omelette extends EventEmitter {
   programs: string[] = [];
   program: string = "";
   shell: string = "";
-  HOME: string = "";
-  SHELL: string = "";
 
   fragments: string[] = [];
   fragment: number;
@@ -61,8 +48,6 @@ class Omelette extends EventEmitter {
     this.word = (ref = this.line) != null
       ? ref.trim().split(/\s+/).pop()
       : void 0;
-    this.HOME = Deno.env.get("HOME") || '~';
-    this.SHELL = Deno.env.get("SHELL") || '/bin/bash';
     this.mainProgram = function () {};
   }
 
@@ -213,63 +198,6 @@ class Omelette extends EventEmitter {
       console.log(this.generateCompletionCodeFish());
       return Deno.exit();
     }
-  }
-
-  getActiveShell() {
-    if (!this.SHELL) {
-      throw new Error("Shell could not be detected");
-    }
-    if (this.SHELL.match(/bash/)) {
-      return "bash";
-    } else if (this.SHELL.match(/zsh/)) {
-      return "zsh";
-    } else if (this.SHELL.match(/fish/)) {
-      return "fish";
-    } else {
-      throw new Error(`Unsupported shell: ${this.SHELL}`);
-    }
-  }
-
-  getDefaultShellInitFile(): string {
-    let fileAt = function (root: string) {
-      return function (file: string) {
-        return path.join(root, file);
-      };
-    };
-    let fileAtHome = fileAt(this.HOME);
-    switch (this.shell = this.getActiveShell()) {
-      case "bash":
-        return fileAtHome(".bash_profile");
-      case "zsh":
-        return fileAtHome(".zshrc");
-      case "fish":
-        return fileAtHome(".config/fish/config.fish");
-    }
-    return "";
-  }
-
-  getCompletionBlock(): string {
-    let command: string, completionPath: string;
-    command = (() => {
-      switch (this.shell) {
-        case "bash":
-          completionPath = path.join(
-            this.HOME,
-            `.${this.program}`,
-            "completion.sh",
-          );
-          return `source ${completionPath}`;
-        case "zsh":
-          return `. <(${this.program} --completion)`;
-        case "fish":
-          return `${this.program} --completion-fish | source`;
-      }
-      return "";
-    })();
-    if (command) {
-      return `\n# begin ${this.program} completion\n${command}\n# end ${this.program} completion\n`;
-    }
-    return "";
   }
 
   init() {

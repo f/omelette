@@ -28,9 +28,33 @@ Install your program using `deno install`:
 
 ```bash
 deno install hello.js
-hello --completion | source # bash and zsh installation
-hello --completion-fish | source # fish shell installation
+hello --completion-fish | source
 ```
+
+### Instructions for your README files:
+
+*(You should add these instructions to your project's README, don't forget to replace `hello` string with your own executable name)*
+
+In **zsh**, you should write these:
+
+```bash
+echo '. <(./hello --completion)' >> .zshrc
+```
+
+In **bash**:
+
+```bash
+./hello --completion >> ~/githubber.completion.sh
+echo 'source ~/hello.completion.sh' >> .bash_profile
+```
+
+In **fish**:
+
+```bash
+echo 'hello --completion-fish | source' >> ~/.config/fish/config.fish
+```
+
+---
 
 That's all! Now you have autocompletion feature!
 

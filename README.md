@@ -426,6 +426,36 @@ http://github.com/fka/helloworld
 http://github.com/fka/blabla
 ```
 
+## Using with Deno
+
+Omelette now supports and is useful with **Deno**. You can make your Deno based CLI tools autocomplete powered using Omelette. It's fully featured.
+
+### Instructions to use Omelette in your Deno projects:
+
+Assume we have a `hello.js`:
+
+```
+import omelette from "https://raw.githubusercontent.com/f/omelette/master/deno/omelette.ts";
+
+const complete = omelette("hello <action>");
+
+complete.on("action", function ({ reply }) {
+  reply(["world", "mars", "jupiter"]);
+});
+
+complete.init();
+
+// your CLI program
+```
+
+Install your program using `deno install`:
+
+```
+deno install --unstable --allow-env --allow-read --allow-write -f hello.js
+```
+
+That's all! Now you have autocompletion feature!
+
 ## Users?
 
 - **Windows Azure** uses Omelette to support autocompletion in [azure-cli](https://github.com/WindowsAzure/azure-sdk-tools-xplat).

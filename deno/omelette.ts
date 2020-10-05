@@ -1,5 +1,5 @@
-import { EventEmitter } from "https://deno.land/std@0.53.0/node/events.ts";
-import * as path from "https://deno.land/std@0.53.0/path/mod.ts";
+import { EventEmitter } from "https://deno.land/std@0.61.0/node/events.ts";
+import * as path from "https://deno.land/std@0.61.0/path/mod.ts";
 const hasProp = {}.hasOwnProperty;
 
 function depthOf(object: any) {

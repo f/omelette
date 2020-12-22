@@ -394,10 +394,10 @@ gh<tab> # short alias
 
 ### Debugging
 
-`--debug` option generates a function called `omlette-debug-<programname>`.
-(`omlette-debug-githubber` in this example).
+`--debug` option generates a function called `omelette-debug-<programname>`.
+(`omelette-debug-githubber` in this example).
 
-When you run `omlette-debug-<programname>`, it will create aliases for your
+When you run `omelette-debug-<programname>`, it will create aliases for your
 application. (`githubber` and `gh` in this example).
 
 A long name:

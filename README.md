@@ -333,7 +333,7 @@ omelette('hello').tree({
         this: ['car'],
         that: ['house'],
       }
-    }
+    },
     are: ['you'],
     many: ['cars', 'houses'],
   },

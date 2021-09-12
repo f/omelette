@@ -112,6 +112,21 @@ class Omelette extends EventEmitter
           __ltrim_colon_completions "$cur"
         }
         complete -F #{completion} #{program}
+      elif type compctl &>/dev/null; then
+        #{completion} () {
+          local cword line point si
+          read -Ac words
+          read -cn cword
+          read -l line
+          si="$IFS"
+          if ! IFS=$'\n' reply=($(#{program} --compzsh --compgen "${cword}" "${words[cword-1]}" "${line}")); then
+            local ret=$?
+            IFS="$si"
+            return $ret
+          fi
+          IFS="$si"
+        }
+        compctl -K #{completion} #{program}
       fi
       ### #{program} completion - end ###
       """

@@ -50,6 +50,7 @@
         this.line = process.argv.slice(this.compgen + 3).join(' ');
         this.word = (ref = this.line) != null ? ref.trim().split(/\s+/).pop() : void 0;
         ({HOME: this.HOME, SHELL: this.SHELL} = process.env);
+        ({platform: this.platform} = process);
         this.mainProgram = function() {};
       }
 
@@ -209,7 +210,7 @@
         fileAtHome = fileAt(this.HOME);
         switch (this.shell = this.getActiveShell()) {
           case 'bash':
-            return fileAtHome('.bash_profile');
+            return fileAtHome((this.platform === 'darwin' ? '.bash_profile' : '.bashrc'));
           case 'zsh':
             return fileAtHome('.zshrc');
           case 'fish':

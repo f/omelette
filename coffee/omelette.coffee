@@ -37,6 +37,7 @@ class Omelette extends EventEmitter
     @word     = @line?.trim().split(/\s+/).pop()
 
     {@HOME, @SHELL} = process.env
+    {@platform} = process
     @mainProgram = ()->
 
   setProgram: (programs)->
@@ -191,7 +192,7 @@ class Omelette extends EventEmitter
     fileAtHome = fileAt @HOME
 
     switch @shell = @getActiveShell()
-      when 'bash'  then fileAtHome '.bash_profile'
+      when 'bash'  then fileAtHome (if @platform is 'darwin' then '.bash_profile' else '.bashrc')
       when 'zsh'   then fileAtHome '.zshrc'
       when 'fish'  then fileAtHome '.config/fish/config.fish'
 
